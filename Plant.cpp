@@ -9,8 +9,8 @@ class Plant
 {
     private:
     int health;
-    Vector2 position;
+    Vector2f position;
 
     public:
 
-}
+};
