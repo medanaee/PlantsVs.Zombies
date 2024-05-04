@@ -1,4 +1,4 @@
-#include "Game.hpp"
+#include "Row.hpp"
 
 bool game::running()
 {
@@ -22,7 +22,8 @@ void game::render()
 {
     window->clear();
     window->draw(background());
-    window->draw(zombies[0]->get_sprite());
+    for(Zombie* temp : zombies)
+        window->draw(temp->get_sprite());
     window->display();
 }
 
