@@ -1,14 +1,12 @@
-#include "Game.hpp"
+#include "Block.hpp"
 
-class row
+class Row
 {
 private:
-    
+    vector<Block*> blocks;
 public:
-    row(/* args */);
+    Row(Vector2f start_pos);
+    Block* get_block(int block_num);
 
 };
 
-row::row(/* args */)
-{
-}

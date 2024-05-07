@@ -1,66 +1,144 @@
 #include "Zombie.hpp"
-#include <iostream>
-#include <filesystem>
+
+bool compare_files_by_name(filesystem::__cxx11::directory_entry file1, filesystem::__cxx11::directory_entry file2)
+{
+    return (file1.path().filename().string() < file2.path().filename().string());
+}
 namespace fs = std::filesystem;
 void Zombie::animation_geneartor(string pics_path, string animation_type)
 {
+    vector<filesystem::__cxx11::directory_entry> files;
     for (const auto &entry : fs::directory_iterator(pics_path + "/" + animation_type))
         if (fs::is_regular_file(entry.path()))
         {
-            sf::Texture temp_pic;
-            temp_pic.loadFromFile(entry.path().string());
-            if (animation_type == "walk")
-                walk_animation.push_back(temp_pic);
-            else if (animation_type == "eat")
-                eat_animation.push_back(temp_pic);
-            else if (animation_type == "die")
-                die_animation.push_back(temp_pic);
+            files.push_back(entry);
         }
+    sort(files.begin(), files.end(), compare_files_by_name);
+    for (auto &file : files)
+    {
+        sf::Texture temp_pic;
+        temp_pic.loadFromFile(file.path().string());
+        if (animation_type == "Walk")
+            walk_animation.push_back(temp_pic);
+        else if (animation_type == "Eat")
+            eat_animation.push_back(temp_pic);
+        else if (animation_type == "Die")
+            die_animation.push_back(temp_pic);
+        else if (animation_type == "Idle")
+            idle_animation.push_back(temp_pic);
+    }
 }
 
-Zombie::Zombie(int line, int speed, int health, string animations_path)
+Zombie::Zombie(int line, int speed, int health, string type)
 {
     this->line = line;
     this->health = health;
     this->speed = speed;
-    animation_geneartor(animations_path, "walk");
-    animation_geneartor(animations_path, "eat");
-    animation_geneartor(animations_path, "die");
-    principal_sprite.scale(0.5, 0.5);
+    if (type == "regular")
+    {
+        animation_geneartor("./Pics/Regular Zombie", "Walk");
+        animation_geneartor("./Pics/Regular Zombie", "Eat");
+        animation_geneartor("./Pics/Regular Zombie", "Die");
+        animation_geneartor("./Pics/Regular Zombie", "Idle");
+    }
+    if (type == "angry")
+    {
+        animation_geneartor("./Pics/Angry Zombie", "Walk");
+        animation_geneartor("./Pics/Angry Zombie", "Eat");
+        animation_geneartor("./Pics/Angry Zombie", "Die");
+        animation_geneartor("./Pics/Angry Zombie", "Idle");
+    }
+    sprite.scale(0.5, 0.5);
+    switch (line)
+    {
+    case 1:
+        sprite.setPosition(Vector2f(980, 50));
+        break;
+    case 2:
+        sprite.setPosition(Vector2f(980, 158));
+        break;
+    case 3:
+        sprite.setPosition(Vector2f(980, 266));
+        break;
+    case 4:
+        sprite.setPosition(Vector2f(980, 374));
+        break;
+    case 5:
+        sprite.setPosition(Vector2f(980, 482));
+        break;
+    }
 }
 
 void Zombie::update()
 {
     sf::Time interval_frame = sf::seconds(0.2f);
-    sf::Time interval_move = sf::seconds(0.8f);
+    sf::Time interval_move = sf::seconds(0.08f);
 
     if (status == "WALKING")
     {
         frame_time += clock_frame.restart();
         if (frame_time >= interval_frame)
         {
-            principal_sprite.setTexture(walk_animation[pic_num % 6]);
+            sprite.setTexture(walk_animation[pic_num % walk_animation.size()]);
             frame_time -= interval_frame;
             pic_num++;
         }
     }
     if (status == "DYING")
     {
+        frame_time += clock_frame.restart();
+        if (frame_time >= interval_frame)
+        {
+            sprite.setTexture(die_animation[pic_num % die_animation.size()]);
+            frame_time -= interval_frame;
+            pic_num++;
+        }
     }
     if (status == "EATING")
     {
+        frame_time += clock_frame.restart();
+        if (frame_time >= interval_frame)
+        {
+            sprite.setTexture(eat_animation[pic_num % eat_animation.size()]);
+            frame_time -= interval_frame;
+            pic_num++;
+        }
+    }
+    if (status == "IDLE")
+    {
+        frame_time += clock_frame.restart();
+        if (frame_time >= interval_frame)
+        {
+            sprite.setTexture(idle_animation[pic_num % (idle_animation.size())]);
+            frame_time -= interval_frame;
+            pic_num++;
+        }
     }
 
     move_time += clock_move.restart();
-    if (move_time >= interval_move)
+    if (move_time >= interval_move && status == "WALKING")
     {
-        position.x += speed;
-        principal_sprite.setPosition(position.x, 0);
+        sprite.setPosition(sprite.getPosition().x - speed, sprite.getPosition().y);
         move_time -= interval_move;
+    }
+
+    change_status();
+}
+
+void Zombie::change_status()
+{
+    if (sprite.getPosition().x <= 500)
+    {
+        status = "IDLE";
     }
 }
 
 Sprite Zombie::get_sprite()
 {
-    return principal_sprite;
+    return sprite;
+}
+
+int Zombie::get_line()
+{
+    return line;
 }
