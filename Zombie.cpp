@@ -1,10 +1,12 @@
 #include "Zombie.hpp"
+namespace fs = std::filesystem;
 
 bool compare_files_by_name(filesystem::__cxx11::directory_entry file1, filesystem::__cxx11::directory_entry file2)
 {
     return (file1.path().filename().string() < file2.path().filename().string());
 }
-namespace fs = std::filesystem;
+
+
 void Zombie::animation_geneartor(string pics_path, string animation_type)
 {
     vector<filesystem::__cxx11::directory_entry> files;
@@ -16,7 +18,7 @@ void Zombie::animation_geneartor(string pics_path, string animation_type)
     sort(files.begin(), files.end(), compare_files_by_name);
     for (auto &file : files)
     {
-        sf::Texture temp_pic;
+        Texture temp_pic;
         temp_pic.loadFromFile(file.path().string());
         if (animation_type == "Walk")
             walk_animation.push_back(temp_pic);
@@ -71,8 +73,8 @@ Zombie::Zombie(int line, int speed, int health, string type)
 
 void Zombie::update()
 {
-    sf::Time interval_frame = sf::seconds(0.2f);
-    sf::Time interval_move = sf::seconds(0.08f);
+    Time interval_frame = seconds(0.2f);
+    Time interval_move = seconds(0.8f);
 
     if (status == "WALKING")
     {
@@ -127,7 +129,7 @@ void Zombie::update()
 
 void Zombie::change_status()
 {
-    if (sprite.getPosition().x <= 500)
+    if (sprite.getPosition().x <= 150)
     {
         status = "IDLE";
     }

@@ -86,6 +86,11 @@ void game::render()
         window->draw(temp->get_sprite());
     }
 
+    for (Pea *temp : peas)
+    {
+        window->draw(temp->get_sprite());
+    }
+
     
 
     window->display();
@@ -144,6 +149,15 @@ void game::update()
             suns.erase(find(suns.begin(), suns.end(), temp));
         }
     }
+    for(Pea* temp : peas)
+    {
+        temp->update();
+        if (temp->get_position().x > window->getSize().x)
+        {
+            delete temp;
+            peas.erase(find(peas.begin(), peas.end(), temp));
+        }
+    }
 }
 
 void game::add_zombie()
@@ -170,4 +184,9 @@ void game::add_sun()
         suns.push_back(new Sun(random() % 780 + 200));
         add_sun_time -= interval_add_sun;
     }
+}
+
+void game::add_pea(string type, Vector2f pos)
+{
+    peas.push_back(new Pea(type, pos));
 }

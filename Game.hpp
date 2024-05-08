@@ -6,6 +6,7 @@
 #include "Plant.hpp"
 #include "Row.hpp"
 #include "Sun.hpp"
+#include "Pea.hpp"
 #include "Headers.hpp"
 
 using namespace std;
@@ -26,24 +27,26 @@ private:
     Sun_Packet sun_packet;
     
     Clock add_zombie_clock;
-    Time add_zombie_time = sf::Time::Zero;
+    Time add_zombie_time = Time::Zero;
 
     Clock add_sun_clock;
-    Time add_sun_time = sf::Time::Zero;
+    Time add_sun_time = Time::Zero;
 
     Clock global_clock;
-    Time global_time = sf::Time::Zero;
+    Time global_time = Time::Zero;
 
-    sf::RenderWindow *window;
-    sf::Event event;
+    RenderWindow *window;
+    Event event;
 
-    sf::Texture background_texture;
-    sf::Sprite background();
+    Texture background_texture;
+    Sprite background();
 
-    std::vector<Zombie*> zombies;
-    std::vector<Sun*> suns;
-    std::vector<Plant*> plants;
-    std::vector<Row*> table;
+    vector<Zombie*> zombies;
+    vector<Sun*> suns;
+    vector<Plant*> plants;
+    vector<Row*> table;
+    vector<Pea*> peas;
+
 
     
 
@@ -55,4 +58,5 @@ public:
     void update();
     void add_zombie();
     void add_sun();
+    void add_pea(string type, Vector2f pos);
 };
