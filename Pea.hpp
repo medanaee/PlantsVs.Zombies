@@ -1,10 +1,23 @@
-#include "Sun_Plant.hpp"
+#pragma once
+
+#include "Headers.hpp"
+#include "Plant.hpp"
+
+using namespace std;
+using namespace sf;
 
 class Pea
 {
 private:
-    /* data */
+    Texture image;
+    Sprite sprite;
+    string type;
+
+    Clock move_clock;
+    Time move_time = Time::Zero;
+
 public:
-    Pea(/* args */);
+    Pea(string type);
+    void update();
 };
 

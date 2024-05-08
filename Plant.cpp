@@ -1,7 +1,6 @@
-#include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
-#include <SFML/System.hpp>
+#include "Plant.hpp"
 
-using namespace std;
-using namespace sf;
-
+void Plant::getting_hit()
+{
+    health -= 10;
+}

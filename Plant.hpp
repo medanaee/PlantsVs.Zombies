@@ -14,5 +14,6 @@ private:
     int pic_num = 0;
 
 public:
+    void getting_hit();
 
 };
