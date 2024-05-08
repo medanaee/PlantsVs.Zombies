@@ -1,4 +1,10 @@
+#pragma once
+
+#include "Headers.hpp"
 #include "Block.hpp"
+
+using namespace std;
+using namespace sf;
 
 class Row
 {

@@ -1,13 +1,18 @@
-#include "Block.hpp"
+#pragma once
+
+#include "Headers.hpp"
+
+using namespace std;
+using namespace sf;
 
 class Plant
 {
 private:
 
     int health;
-    Vector2f position;
-    Block *block;
-    Sprite sprite;
+    string type;
+    int pic_num = 0;
 
 public:
+
 };

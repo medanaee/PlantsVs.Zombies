@@ -1,19 +1,5 @@
-#include <algorithm>
-#include <iostream>
-#include <filesystem>
-#include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
-#include <SFML/System.hpp>
-
-class Block;
-class Plant;
-class Sun_Plant;
-class Invasive_Plant;
-class Defender_Plant;
-class Row;
-class Pea;
-class Game;
-class Seed_Packet;
+#pragma once
+#include "Headers.hpp"
 
 using namespace std;
 using namespace sf;

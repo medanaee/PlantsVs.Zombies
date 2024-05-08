@@ -5,12 +5,3 @@
 using namespace std;
 using namespace sf;
 
-class Plant
-{
-    private:
-    int health;
-    Vector2f position;
-
-    public:
-
-};

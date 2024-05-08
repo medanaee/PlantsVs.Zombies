@@ -1,4 +1,5 @@
-#include "Seed_Packet.hpp"
+#pragma once
+#include "Headers.hpp"
 using namespace std;
 using namespace sf;
 
@@ -13,7 +14,6 @@ private:
 
 public:
     Sun(float pos_x);
-    // void delete_sun();
     void update();
     Vector2f get_position();
     Sprite get_sprite();

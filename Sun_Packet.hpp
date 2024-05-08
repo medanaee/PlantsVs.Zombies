@@ -1,4 +1,6 @@
-#include "Sun.hpp"
+#pragma once
+
+#include "Headers.hpp"
 
 using namespace std;
 using namespace sf;

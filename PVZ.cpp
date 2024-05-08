@@ -1,4 +1,8 @@
+#include "Headers.hpp"
 #include "Game.hpp"
+
+using namespace std;
+using namespace sf;
 
 int main()
 {

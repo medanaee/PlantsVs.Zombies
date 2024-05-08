@@ -1,4 +1,8 @@
-#include "Sun_Packet.hpp"
+#pragma once
+#include "Headers.hpp"
+
+using namespace std;
+using namespace sf;
 
 class Zombie
 {

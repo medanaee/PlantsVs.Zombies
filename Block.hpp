@@ -1,4 +1,10 @@
-#include "Zombie.hpp"
+#pragma once
+
+#include "Headers.hpp"
+#include "Plant.hpp"
+
+using namespace std;
+using namespace sf;
 
 class Block
 {

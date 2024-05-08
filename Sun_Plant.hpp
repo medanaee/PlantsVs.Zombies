@@ -1,4 +1,10 @@
-#include "Defender_Plant.hpp"
+#pragma once
+
+#include "Headers.hpp"
+#include "Plant.hpp"
+
+using namespace std;
+using namespace sf;
 
 class Sun_Plant : public Plant
 {
