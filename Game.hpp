@@ -12,7 +12,7 @@
 using namespace std;
 using namespace  sf;
 
-
+bool is_colliding(const Sprite &sprite1, const Sprite &sprite2v);
 
 
 class game
@@ -48,15 +48,13 @@ private:
     vector<Pea*> peas;
 
 
-    
-
-
 public:
     game();
     bool running();
     void render();
     void update();
     void add_zombie();
+    void add_1zombie();
     void add_sun();
-    void add_pea(string type, Vector2f pos);
+    void add_pea(string type, int line, int start_x);
 };

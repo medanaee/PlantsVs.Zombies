@@ -60,7 +60,7 @@ Zombie::Zombie(int line, int speed, int health, string type)
         sprite.setPosition(Vector2f(980, 158));
         break;
     case 3:
-        sprite.setPosition(Vector2f(980, 266));
+        sprite.setPosition(Vector2f(600, 266));
         break;
     case 4:
         sprite.setPosition(Vector2f(980, 374));

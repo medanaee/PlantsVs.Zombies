@@ -1,14 +1,30 @@
 #include "Game.hpp"
 
+bool is_colliding(const Sprite &sprite1, const Sprite &sprite2)
+{
+    sf::FloatRect bounds1 = sprite1.getGlobalBounds();
+    sf::FloatRect bounds2 = sprite2.getGlobalBounds();
+
+    sf::FloatRect intersection;
+    if (bounds1.intersects(bounds2, intersection))
+    {
+        int last_col = intersection.left + intersection.width;
+        int start_y = intersection.top + intersection.height / 2;
+        if (sprite1.getTexture()->copyToImage().getPixel((last_col - bounds1.left) * 2, (start_y - bounds1.top) * 2).a > 0)
+            return true;
+    }
+    return false;
+}
+
 bool game::running()
 {
     return window->isOpen();
 }
 
-sf::Sprite game::background()
+Sprite game::background()
 {
     background_texture.loadFromFile("./Pics/Main Items/Background.png");
-    sf::Sprite background_sprite;
+    Sprite background_sprite;
     background_sprite.setTexture(background_texture);
     return background_sprite;
 }
@@ -21,7 +37,7 @@ game::game()
       melon_packet("./Pics/Main Items/Seed-Packet/Melon.png", "./Pics/Main Items/Seed-Packet/Melon Dark.png", Vector2f(13, 377)),
       sun_packet("./Pics/Main Items/Sun Bar.png", Vector2f(0, 12))
 {
-    window = new sf::RenderWindow(sf::VideoMode(1080, 720), "Plants VS. Zombies");
+    window = new RenderWindow(VideoMode(1080, 720), "Plants VS. Zombies");
     for (int i = 0; i < 5; i++)
     {
         table.push_back(new Row(Vector2f(223, 145 + i * 108)));
@@ -40,6 +56,11 @@ void game::render()
         {
             window->draw(temp->get_block(i)->get_area());
         }
+    }
+
+    for (Pea *temp : peas)
+    {
+        window->draw(temp->get_sprite());
     }
 
     for (Zombie *temp : zombies)
@@ -86,13 +107,6 @@ void game::render()
         window->draw(temp->get_sprite());
     }
 
-    for (Pea *temp : peas)
-    {
-        window->draw(temp->get_sprite());
-    }
-
-    
-
     window->display();
 }
 
@@ -100,13 +114,13 @@ void game::update()
 {
     while (window->pollEvent(event))
     {
-        if (event.type == sf::Event::Closed)
+        if (event.type == Event::Closed)
             window->close();
-        else if (event.type == sf::Event::MouseButtonPressed)
+        else if (event.type == Event::MouseButtonPressed)
         {
-            if (event.mouseButton.button == sf::Mouse::Left)
+            if (event.mouseButton.button == Mouse::Left)
             {
-                sf::Vector2i mousePosition = sf::Mouse::getPosition(*window);
+                Vector2i mousePosition = Mouse::getPosition(*window);
                 for (Sun *&temp : suns)
                     if (temp->get_sprite().getGlobalBounds().contains(mousePosition.x, mousePosition.y))
                     {
@@ -116,9 +130,9 @@ void game::update()
                     }
             }
         }
-        else if (event.type == sf::Event::MouseMoved)
+        else if (event.type == Event::MouseMoved)
         {
-            sf::Vector2i mousePosition = sf::Mouse::getPosition(*window);
+            Vector2i mousePosition = Mouse::getPosition(*window);
             for (Row *&temp : table)
             {
                 for (int i = 0; i < 9; i++)
@@ -135,8 +149,10 @@ void game::update()
             }
         }
     }
-    add_zombie();
+
     add_sun();
+    // add_zombie();
+
     for (Zombie *temp : zombies)
         temp->update();
 
@@ -149,20 +165,27 @@ void game::update()
             suns.erase(find(suns.begin(), suns.end(), temp));
         }
     }
-    for(Pea* temp : peas)
+    for (Pea *temp : peas)
     {
         temp->update();
-        if (temp->get_position().x > window->getSize().x)
+    }
+    for (Zombie *temp_zombie : zombies)
+    {
+        for (Pea *temp_pea : peas)
         {
-            delete temp;
-            peas.erase(find(peas.begin(), peas.end(), temp));
+            if (is_colliding(temp_zombie->get_sprite(), temp_pea->get_sprite()) && temp_pea->get_line() == temp_zombie->get_line())
+            {
+                cout << "dclkvmscv" << endl;
+                delete temp_pea;
+                peas.erase(find(peas.begin(), peas.end(), temp_pea));
+            }
         }
     }
 }
 
 void game::add_zombie()
 {
-    sf::Time interval_add_zombie = sf::seconds(3);
+    Time interval_add_zombie = seconds(3);
     add_zombie_time += add_zombie_clock.restart();
     if (add_zombie_time >= interval_add_zombie)
     {
@@ -175,9 +198,15 @@ void game::add_zombie()
     }
 }
 
+void game::add_1zombie()
+{
+
+    if (rand() % 2)
+        zombies.push_back(new Zombie(3, 10, 100, "regular"));
+}
 void game::add_sun()
 {
-    sf::Time interval_add_sun = sf::seconds(5);
+    Time interval_add_sun = seconds(5);
     add_sun_time += add_sun_clock.restart();
     if (add_sun_time >= interval_add_sun)
     {
@@ -186,7 +215,7 @@ void game::add_sun()
     }
 }
 
-void game::add_pea(string type, Vector2f pos)
+void game::add_pea(string type, int line, int start_x)
 {
-    peas.push_back(new Pea(type, pos));
+    peas.push_back(new Pea(type, line, start_x));
 }

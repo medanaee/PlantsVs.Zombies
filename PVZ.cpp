@@ -7,7 +7,13 @@ using namespace sf;
 int main()
 {
     game pvz;
-    pvz.add_pea("freezed", Vector2f(10,20));
+    for(int i = 0; i < 5; i++)
+    {
+        pvz.add_pea("freezed", i + 1, 50);
+    }
+    pvz.add_1zombie();
+    
+
     while (pvz.running())
     {
         pvz.update();
