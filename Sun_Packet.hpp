@@ -11,11 +11,12 @@ private:
     Texture image;
     Sprite sprite;
     Font lilita_one;
-    int money = 500;
+    int budget = 50;
 
 public:
-    Sun_Packet(string path_to_image, Vector2f pos);
-    Text get_money();
+    Sun_Packet(int budget,string path_to_image, Vector2f pos);
+    Text write_budget();
     Sprite get_sprite();
-    void add_money();
+    void add_money(int sun_value);
+    int get_budget();
 };

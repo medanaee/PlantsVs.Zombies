@@ -9,7 +9,7 @@ int main()
     game pvz;
     for(int i = 0; i < 5; i++)
     {
-        pvz.add_pea("freezed", i + 1, 50);
+        pvz.add_pea("FROZEN", i + 1, 50, 20);
     }
     pvz.add_1zombie();
     

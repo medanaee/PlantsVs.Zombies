@@ -24,7 +24,7 @@ run: PVZ
 ./outputs/Game.o: Game.cpp Game.hpp Headers.hpp Row.hpp Block.hpp Zombie.hpp Sun_Packet.hpp Sun.hpp Seed_Packet.hpp Plant.hpp Pea.hpp
 	g++ -c $< -o $@
 
-./outputs/Zombie.o: Zombie.cpp Zombie.hpp Headers.hpp
+./outputs/Zombie.o: Zombie.cpp Zombie.hpp Headers.hpp Pea.hpp
 	g++ -c $< -o $@
 
 ./outputs/Pea.o: Pea.cpp Pea.hpp Headers.hpp Plant.hpp

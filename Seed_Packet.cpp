@@ -2,8 +2,11 @@
 using namespace std;
 using namespace sf;
 
-Seed_Packet::Seed_Packet(string light_path,string dark_path, Vector2f pos)
+Sprite Seed_Packet::get_sprite() { return sprite; }
+
+Seed_Packet::Seed_Packet(int price, string light_path, string dark_path, Vector2f pos)
 {
+    this->price = price;
     lilita_one.loadFromFile("./Fonts/LilitaOne.ttf");
     mplus1.loadFromFile("./Fonts/MPLUS.ttf");
     light_dark_images.first.loadFromFile(light_path);
@@ -17,14 +20,23 @@ Text Seed_Packet::get_remaining_time()
 {
     Text remaning_time_text;
     remaning_time_text.setFont(mplus1);
-    remaning_time_text.setString(to_string((int)remaning_time.asSeconds()));
     remaning_time_text.setCharacterSize(14);
     remaning_time_text.setFillColor(Color::White);
     remaning_time_text.setPosition(Vector2f(sprite.getPosition().x + 78, sprite.getPosition().y + 7));
-    return remaning_time_text;
+    
+    if (remaning_time != seconds(0))
+    {
+        remaning_time_text.setString(to_string((int)remaning_time.asSeconds()));
+        return remaning_time_text;
+    }
+    else
+    {
+        remaning_time_text.setString("");
+        return remaning_time_text;
+    }
 }
 
-Text Seed_Packet::get_price()
+Text Seed_Packet::plant_price()
 {
     Text price_text;
     price_text.setFont(lilita_one);
@@ -35,7 +47,10 @@ Text Seed_Packet::get_price()
     return price_text;
 }
 
-Sprite Seed_Packet::get_sprite()
+void Seed_Packet::update_image(int budget)
 {
-    return sprite;
+    if (price <= budget)
+        sprite.setTexture(light_dark_images.first);
+    else
+        sprite.setTexture(light_dark_images.second);
 }

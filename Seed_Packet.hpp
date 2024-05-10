@@ -4,8 +4,6 @@
 using namespace std;
 using namespace sf;
 
-
-
 class Seed_Packet
 {
     private:
@@ -14,12 +12,12 @@ class Seed_Packet
     Font lilita_one;
     Font mplus1;
     Time remaning_time = seconds(0);
-    int price = 10;
-
+    int price;
 
     public:
-    Seed_Packet(string light_path, string dark_path, Vector2f pos);
+    Seed_Packet(int price,string light_path, string dark_path, Vector2f pos);
     Text get_remaining_time();
-    Text get_price();
+    Text plant_price();
     Sprite get_sprite();
+    void update_image(int budget);
 };

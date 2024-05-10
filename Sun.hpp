@@ -8,12 +8,12 @@ class Sun
 private:
     Texture picture;
     Sprite sprite;
-    int speed = 3;
+    int speed;
     Clock move_clock;
     Time move_time = Time::Zero;
 
 public:
-    Sun(float pos_x);
+    Sun(float pos_x,int speed);
     void update();
     Vector2f get_position();
     Sprite get_sprite();
