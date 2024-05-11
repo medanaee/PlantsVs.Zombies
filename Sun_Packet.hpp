@@ -18,5 +18,6 @@ public:
     Text write_budget();
     Sprite get_sprite();
     void add_money(int sun_value);
+    void spend_money(int sun_value);
     int get_budget();
 };

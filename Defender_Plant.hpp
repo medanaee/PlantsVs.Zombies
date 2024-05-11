@@ -2,6 +2,7 @@
 
 #include "Headers.hpp"
 #include "Plant.hpp"
+#include "Block.hpp"
 
 using namespace std;
 using namespace sf;
@@ -17,7 +18,8 @@ private:
     sf::Time frame_time = sf::Time::Zero;
 
 public:
-    Defender_Plant();
+    Defender_Plant(int health, Block block);
+    
 
 };
 

@@ -1,5 +1,10 @@
 {
     "files.associations": {
-        "new": "cpp"
+        "new": "cpp",
+        "ostream": "cpp",
+        "iostream": "cpp",
+        "chrono": "cpp",
+        "memory": "cpp",
+        "filesystem": "cpp"
     }
 }

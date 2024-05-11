@@ -30,7 +30,13 @@ run: PVZ
 ./outputs/Pea.o: Pea.cpp Pea.hpp Headers.hpp Plant.hpp
 	g++ -c $< -o $@
 
-PVZ: $(out_path)PVZ.o $(out_path)Game.o $(out_path)Zombie.o $(out_path)Seed_Packet.o $(out_path)Sun_Packet.o $(out_path)Sun.o $(out_path)Row.o $(out_path)Block.o $(out_path)Pea.o
+./outputs/Plant.o: Plant.cpp Plant.hpp Headers.hpp Block.hpp
+	g++ -c $< -o $@
+
+./outputs/Invasive_Plant.o: Invasive_Plant.cpp Invasive_Plant.hpp Headers.hpp Block.hpp Plant.hpp
+	g++ -c $< -o $@
+
+PVZ: $(out_path)PVZ.o $(out_path)Game.o $(out_path)Zombie.o $(out_path)Seed_Packet.o $(out_path)Sun_Packet.o $(out_path)Sun.o $(out_path)Row.o $(out_path)Block.o $(out_path)Pea.o $(out_path)Plant.o $(out_path)Invasive_Plant.o
 	g++ $^ -o PVZ -lsfml-graphics -lsfml-window -l sfml-system
 
 ./outputs/PVZ.o: PVZ.cpp Game.hpp

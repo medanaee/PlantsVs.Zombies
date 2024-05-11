@@ -7,6 +7,10 @@
 #include "Row.hpp"
 #include "Sun.hpp"
 #include "Pea.hpp"
+#include "Invasive_Plant.hpp"
+#include "Defender_Plant.hpp"
+#include "Sun_Plant.hpp"
+#include "Block.hpp"
 #include "Headers.hpp"
 
 using namespace std;
@@ -18,7 +22,6 @@ class game
 {
 private:
 
-    int budget = 50;
 
     Seed_Packet frozen_shooter_packet;
     void render_frozen_shooter_packet();
@@ -47,10 +50,12 @@ private:
     
     Clock add_zombie_clock;
     Time add_zombie_time = Time::Zero;
-    // void set_zombie_build_time();
 
     Clock add_sun_clock;
     Time add_sun_time = Time::Zero;
+
+    Clock add_peas_clock;
+    Time add_peas_time = Time::Zero;
 
     RenderWindow *window;
     Event event;
@@ -90,4 +95,7 @@ public:
     void add_1zombie();
     void add_sun();
     void add_pea(string type, int line, int start_x, int damage);
+    void add_peas_test();
+    void add_plant(string type, int health, Block *block);
+    vector<Row *> get_table();
 };

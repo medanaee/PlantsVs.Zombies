@@ -25,4 +25,8 @@ Text Sun_Packet::write_budget()
 
 Sprite Sun_Packet::get_sprite() { return sprite; }
 void Sun_Packet::add_money(int sun_value) { budget += sun_value; }
+void Sun_Packet::spend_money(int sun_value)
+{
+    budget -= sun_value;
+}
 int Sun_Packet::get_budget() { return budget; }

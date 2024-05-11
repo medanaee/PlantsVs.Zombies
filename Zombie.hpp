@@ -25,8 +25,8 @@ private:
     vector<Texture> idle_animation;
     vector<Texture> run_animation;
 
-    Clock clock_frame;
-    Clock clock_move;
+    Clock frame_clock;
+    Clock move_clock;
     Time frame_time = Time::Zero;
     Time move_time = Time::Zero;
     Time frozed_duration = Time::Zero;
@@ -49,4 +49,5 @@ public:
     int get_line();
     int get_health();
     void getting_hit(Pea pea);
+    string get_status();
 };

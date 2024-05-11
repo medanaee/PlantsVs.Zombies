@@ -7,10 +7,9 @@ bool compare_files_by_name(filesystem::__cxx11::directory_entry file1, filesyste
     return (file1.path().filename().string() < file2.path().filename().string());
 }
 
-int Zombie::get_health(){return health;}
+int Zombie::get_health() { return health; }
 Sprite Zombie::get_sprite() { return sprite; }
 int Zombie::get_line() { return line; }
-
 
 void Zombie::getting_hit(Pea pea)
 {
@@ -20,6 +19,11 @@ void Zombie::getting_hit(Pea pea)
         frozed_duration += seconds(5);
         interval_move = seconds(0.6f);
     }
+}
+
+string Zombie::get_status()
+{
+    return status;
 }
 
 // Generate Animations
@@ -54,6 +58,7 @@ Zombie::Zombie(int line, int speed, int health, string type)
 {
     this->line = line;
     this->health = health;
+    this->initial_health = health;
     this->speed = speed;
     this->type = type;
     if (type == "regular")
@@ -75,32 +80,40 @@ Zombie::Zombie(int line, int speed, int health, string type)
     switch (line)
     {
     case 1:
-        sprite.setPosition(Vector2f(500, 50));
+        sprite.setPosition(Vector2f(980, 50));
         break;
     case 2:
-        sprite.setPosition(Vector2f(500, 158));
+        sprite.setPosition(Vector2f(980, 158));
         break;
     case 3:
-        sprite.setPosition(Vector2f(500, 266));
+        sprite.setPosition(Vector2f(980, 266));
         break;
     case 4:
-        sprite.setPosition(Vector2f(500, 374));
+        sprite.setPosition(Vector2f(980, 374));
         break;
     case 5:
-        sprite.setPosition(Vector2f(500, 482));
+        sprite.setPosition(Vector2f(980, 482));
         break;
     }
 }
 
 void Zombie::update_animation()
 {
-    frame_time += clock_frame.restart();
+    frame_time += frame_clock.restart();
     if (frame_time >= interval_frame)
     {
         if (status == "WALKING")
             sprite.setTexture(walk_animation[pic_num % walk_animation.size()]);
         else if (status == "DYING")
+        {
             sprite.setTexture(die_animation[pic_num % die_animation.size()]);
+
+            if (pic_num % die_animation.size() == 7)
+            {
+
+                status = "DIE";
+            }
+        }
         else if (status == "EATING")
             sprite.setTexture(eat_animation[pic_num % eat_animation.size()]);
         else if (status == "IDLE")
@@ -115,8 +128,8 @@ void Zombie::update_animation()
 
 void Zombie::update_position()
 {
-    move_time += clock_move.restart();
-    if (move_time >= interval_move && status == "WALKING")
+    move_time += move_clock.restart();
+    if (move_time >= interval_move && (status == "WALKING" || status == "RUNNING"))
     {
         sprite.setPosition(sprite.getPosition().x - speed, sprite.getPosition().y);
         move_time -= interval_move;
@@ -135,8 +148,14 @@ void Zombie::change_status()
     // Best position for stop x==100
     if (sprite.getPosition().x <= 100)
         status = "IDLE";
-    if (type == "angry" && health <= (initial_health) / 10)
+    if (type == "angry" && health <= (initial_health) / 3 && status != "DIE" && status != "DYING" && status != "IDLE")
+    {
         status = "RUNNING";
-    if (health <= 0)
+        interval_move = seconds(0.1f);
+    }
+    if (health <= 0 && status != "DIE" && status != "DYING" && status != "IDLE")
+    {
         status = "DYING";
+        pic_num = 0;
+    }
 }

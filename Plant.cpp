@@ -1,6 +1,19 @@
 #include "Plant.hpp"
 
-void Plant::getting_hit()
+Plant::Plant(int health, string type, Block *block)
 {
-    health -= 10;
+    this->block = block;
+    this->health = health;
+    this->type = type;
+    block->set_plant(this);
+}
+
+void Plant::getting_hit(Zombie* zombie)
+{
+    health;
+}
+
+string Plant::get_type()
+{
+    return type;
 }

@@ -1,11 +1,11 @@
 #include "Row.hpp"
 
-Row::Row(Vector2f start_pos)
+Row::Row(Vector2f start_pos, int line)
 {
     for(int i = 0; i < 9; i++)
     {
         //define BLOCK_LENGHT 87;
-        blocks.push_back(new Block(start_pos.x + i * 87, start_pos.y));
+        blocks.push_back(new Block(start_pos.x + i * 87, start_pos.y, line));
     }
 }
 
