@@ -6,3 +6,7 @@
 #include <SFML/System.hpp>
 #include <iomanip> 
 #include <sstream>
+#include <fstream>
+#include <vector>
+#include <string>
+#include <regex>
