@@ -85,6 +85,7 @@ private:
     void update_peas();
     void check_collision();
     void check_mouse_click();
+    bool has_zombie_in_line(Plant* plant);
 
 public:
     Game();
