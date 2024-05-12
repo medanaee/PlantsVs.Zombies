@@ -11,7 +11,7 @@ private:
     Texture image;
     Sprite sprite;
     Font lilita_one;
-    int budget = 50;
+    int budget = 5100;
 
 public:
     Sun_Packet(int budget,string path_to_image, Vector2f pos);

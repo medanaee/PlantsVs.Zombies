@@ -75,9 +75,11 @@ void Seed_Packet::update(int budget)
     else
         sprite.setTexture(light_dark_images.second);
 
+    time += clock.restart();
+    if (time >= interval_time && remaning_time == seconds(0))
+        time -= interval_time;
     if (remaning_time != seconds(0))
     {
-        time += clock.restart();
         if (time >= interval_time)
         {
             remaning_time -= interval_time;

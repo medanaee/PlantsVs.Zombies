@@ -2,6 +2,7 @@
 
 #include "Headers.hpp"
 #include "Plant.hpp"
+#include "Block.hpp"
 
 using namespace std;
 using namespace sf;

@@ -15,7 +15,7 @@ class Seed_Packet
     Font mplus1;
     Time charge_time;
     Time remaning_time = seconds(0);
-    Time interval_time = seconds(0.1);
+    Time interval_time = seconds(0.1f);
     Time time = Time::Zero;
     Clock clock;
     int price;

@@ -24,7 +24,7 @@ Pea::Pea(string type, int line, int start_x, int damage)
     //Bayad Dorost bashe badan adadi nabashe
     //define BLOCK_WIDTH 108;
     //edfine FIRST_BLOCK_DEPTH 170;
-    sprite.setPosition(start_x, 170 + 108 * (line - 1));
+    sprite.setPosition(start_x, 164 + 108 * (line - 1));
     sprite.scale(0.5, 0.5);
 }
 

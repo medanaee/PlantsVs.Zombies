@@ -6,7 +6,7 @@ using namespace sf;
 
 int main()
 {
-    game pvz;
+    Game pvz;
     // for(int i = 0; i < 5; i++)
     // {
     //     pvz.add_pea("FROZEN", i + 1, 50, 20);

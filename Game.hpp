@@ -18,7 +18,7 @@ using namespace sf;
 
 bool is_colliding(const Sprite &sprite1, const Sprite &sprite2);
 
-class game
+class Game
 {
 private:
 
@@ -87,7 +87,7 @@ private:
     void check_mouse_click();
 
 public:
-    game();
+    Game();
     bool running();
     void render();
     void update();
