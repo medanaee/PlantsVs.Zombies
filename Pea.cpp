@@ -10,6 +10,7 @@ Pea::Pea(string type, int line, int start_x, int damage)
 {
     this->damage = damage;
     this->line = line;
+    this->type = type;
 
     if (type == "REGULAR")
     {

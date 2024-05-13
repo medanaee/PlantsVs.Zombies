@@ -5,6 +5,7 @@
         "iostream": "cpp",
         "chrono": "cpp",
         "memory": "cpp",
-        "filesystem": "cpp"
+        "filesystem": "cpp",
+        "string": "cpp"
     }
 }

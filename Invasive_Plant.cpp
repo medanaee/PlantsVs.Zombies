@@ -27,11 +27,11 @@ Sprite Invasive_Plant::get_sprite()
     return sprite;
 }
 
-void Invasive_Plant::update(bool has_zombie_in_line, Game *game)
+void Invasive_Plant::update(bool have_zombie_in_front, Game *game)
 {
     frame_time += frame_clock.restart();
     change_attack_time += change_attack_clock.restart();
-    change_status(has_zombie_in_line);
+    change_status(have_zombie_in_front);
     if (frame_time >= interval_frame)
     {
         if (status == "Idle")
@@ -45,8 +45,7 @@ void Invasive_Plant::update(bool has_zombie_in_line, Game *game)
             if (shot)
             {
                 sprite.setTexture(attack_animation[pic_num % attack_animation.size()]);
-                cout << pic_num << endl;
-                if(pic_num == 8)
+                if (pic_num == 8)
                     shoot(game);
                 if (pic_num == attack_animation.size() - 1)
                     shot = 0;
@@ -63,9 +62,9 @@ void Invasive_Plant::update(bool has_zombie_in_line, Game *game)
     }
 }
 
-void Invasive_Plant::change_status(bool has_zombie_in_line)
+void Invasive_Plant::change_status(bool have_zombie_in_front)
 {
-    if (has_zombie_in_line)
+    if (have_zombie_in_front)
         status = "Attack";
     else
         status = "Idle";
@@ -73,7 +72,6 @@ void Invasive_Plant::change_status(bool has_zombie_in_line)
 
 void Invasive_Plant::shoot(Game *game)
 {
-    cout << type << endl;
     if (type == "PeaShooter")
         game->add_pea("REGULAR", block->get_line(), sprite.getPosition().x + 40, 10);
     if (type == "FrozenPeaShooter")
@@ -89,6 +87,8 @@ Invasive_Plant::Invasive_Plant(int health, Block *block, string type) : Plant(he
     }
     else if (type == "FrozenPeaShooter")
     {
+        animation_geneartor("./Pics/Frozen Pea-Shooter Plant", "Idle");
+        animation_geneartor("./Pics/Frozen Pea-Shooter Plant", "Attack");
     }
     sprite.setPosition(block->get_position());
     sprite.setScale(0.18, 0.18);

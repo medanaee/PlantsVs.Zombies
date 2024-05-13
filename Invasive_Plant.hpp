@@ -35,7 +35,7 @@ public:
     Invasive_Plant(int health, Block *block, string type);
     void animation_geneartor(string pics_path, string animation_type);
     Sprite get_sprite();
-    void update(bool has_zombie_in_line, Game* game);
-    void change_status(bool has_zombie_in_line);
+    void update(bool have_zombie_in_front, Game* game);
+    void change_status(bool have_zombie_in_front);
     void shoot(Game* game);
 };

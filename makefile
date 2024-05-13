@@ -36,10 +36,16 @@ run: PVZ
 ./outputs/Invasive_Plant.o: Invasive_Plant.cpp Invasive_Plant.hpp Headers.hpp Block.hpp Plant.hpp
 	g++ -c $< -o $@
 
+./outputs/Sun_Plant.o: Sun_Plant.cpp Sun_Plant.hpp Headers.hpp Block.hpp Plant.hpp
+	g++ -c $< -o $@
+
+./outputs/Defender_Plant.o: Defender_Plant.cpp Defender_Plant.hpp Headers.hpp Block.hpp Plant.hpp
+	g++ -c $< -o $@
+
 ./outputs/Setting.o: Setting.cpp Setting.hpp Headers.hpp
 	g++ -c $< -o $@
 
-PVZ: $(out_path)PVZ.o $(out_path)Game.o $(out_path)Setting.o $(out_path)Zombie.o $(out_path)Seed_Packet.o $(out_path)Sun_Packet.o $(out_path)Sun.o $(out_path)Row.o $(out_path)Block.o $(out_path)Pea.o $(out_path)Plant.o $(out_path)Invasive_Plant.o
+PVZ: $(out_path)PVZ.o $(out_path)Defender_Plant.o $(out_path)Game.o $(out_path)Sun_Plant.o $(out_path)Setting.o $(out_path)Zombie.o $(out_path)Seed_Packet.o $(out_path)Sun_Packet.o $(out_path)Sun.o $(out_path)Row.o $(out_path)Block.o $(out_path)Pea.o $(out_path)Plant.o $(out_path)Invasive_Plant.o
 	g++ $^ -o PVZ -lsfml-graphics -lsfml-window -l sfml-system
 
 ./outputs/PVZ.o: PVZ.cpp Game.hpp

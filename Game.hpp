@@ -85,7 +85,7 @@ private:
     void update_peas();
     void check_collision();
     void check_mouse_click();
-    bool has_zombie_in_line(Plant* plant);
+    bool have_zombie_in_front(Plant* plant);
 
 public:
     Game();
@@ -94,7 +94,8 @@ public:
     void update();
     void add_zombie();
     void add_1zombie();
-    void add_sun();
+    void add_sun(Vector2f position);
+    void add_sun_from_top();
     void add_pea(string type, int line, int start_x, int damage);
     void add_peas_test();
     void add_plant(string type, int health, Block *block);

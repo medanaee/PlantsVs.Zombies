@@ -1,6 +1,7 @@
 #pragma once
 #include "Headers.hpp"
 #include "Pea.hpp"
+class Pea;
 
 using namespace std;
 using namespace sf;
@@ -8,12 +9,15 @@ using namespace sf;
 class Zombie
 {
 private:
+
+    bool is_eating = 0;
     Sprite sprite;
 
     int line;
     int speed;
     int initial_health;
     int health;
+    int damage;
     string type;
 
     int pic_num = 0;
@@ -42,7 +46,7 @@ private:
     void update_position();
 
 public:
-    Zombie(int line, int speed, int health, string animations_path);
+    Zombie(int line, int speed, int health, int damage, string animations_path);
     void update();
     void change_status();
     Sprite get_sprite();
@@ -50,4 +54,7 @@ public:
     int get_health();
     void getting_hit(Pea pea);
     string get_status();
+    void change_eating();
+    void change_no_eating();
+    int get_damage();
 };

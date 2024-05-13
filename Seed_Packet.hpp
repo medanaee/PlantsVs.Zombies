@@ -24,7 +24,7 @@ class Seed_Packet
     bool available = 0;
  
     public:
-    Seed_Packet(int price, string light_path, string dark_path, string plant_image_path, Vector2f pos, Time charge_time);
+    Seed_Packet(string type,int price, string light_path, string dark_path, string plant_image_path, Vector2f pos, Time charge_time);
     Text get_remaining_time();
     Text plant_price();
     Sprite get_sprite();

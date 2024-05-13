@@ -10,18 +10,16 @@ using namespace sf;
 class Defender_Plant : public Plant
 {
 private:
-
-    std::vector<Texture> high_helth_animation;
-    std::vector<Texture> medium_helth_animation;
-    std::vector<Texture> low_helth_animation;
-    sf::Clock frame_clock;
-    sf::Time frame_time = sf::Time::Zero;
+    int inital_health;
+    Sprite sprite;
+    Texture FULL_helth_animation;
+    Texture HASHTAD_helth_animation;
+    Texture SHAAAAST_helth_animation;
+    Texture CHALOOPANJ_helth_animation;
 
 public:
-    Defender_Plant(int health, Block block);
-    
-
+    Defender_Plant(int health, Block *block);
+    Sprite get_sprite();
+    void update(bool have_zombie_in_front, Game* game);
+    void images();
 };
-
-
-

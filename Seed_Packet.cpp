@@ -16,7 +16,7 @@ Sprite Seed_Packet::get_plant_sprite()
     return plant_sprite;
 }
 
-Seed_Packet::Seed_Packet(int price, string light_path, string dark_path, string plant_image_path, Vector2f pos, Time charge_time)
+Seed_Packet::Seed_Packet(string type, int price, string light_path, string dark_path, string plant_image_path, Vector2f pos, Time charge_time)
 {
     this->price = price;
     this->charge_time = charge_time;
@@ -34,7 +34,12 @@ Seed_Packet::Seed_Packet(int price, string light_path, string dark_path, string 
     sprite.setPosition(pos);
 
     sprite.scale(0.5, 0.5);
-    plant_sprite.scale(0.18, 0.18);
+    if (type == "FrozenPeaShooter" || type == "PeaShooter")
+        plant_sprite.scale(0.18, 0.18);
+    if (type == "SunFlower")
+        plant_sprite.scale(0.47, 0.47);
+    if(type == "WallNut")
+        plant_sprite.scale(0.24,0.24);
 }
 
 Text Seed_Packet::get_remaining_time()
