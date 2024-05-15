@@ -2,9 +2,9 @@
 
 Sprite Invasive_Plant::get_sprite() { return sprite; }
 
-Invasive_Plant::Invasive_Plant(int health, Block *block, string type, Time interval_speed) : Plant(health, type, block)
+Invasive_Plant::Invasive_Plant(int health, Block *block, string type, Time interval_shoot_speed) : Plant(health, type, block)
 {
-    this->interval_speed = interval_speed;
+    this->interval_shoot_speed = interval_shoot_speed;
     if (type == PEASHOOTER)
     {
         animation_geneartor(PEASHOOTER_ANIMATION, IDLE);
@@ -15,6 +15,12 @@ Invasive_Plant::Invasive_Plant(int health, Block *block, string type, Time inter
         animation_geneartor(FROZEN_PEASHOOTER_ANIMATION, IDLE);
         animation_geneartor(FROZEN_PEASHOOTER_ANIMATION, ATTACK);
     }
+    else if (type == MELON)
+    {
+        animation_geneartor("./Pics/Melon Plant", IDLE);
+        animation_geneartor("./Pics/Melon Plant", ATTACK);
+    }
+    
     sprite.setPosition(block->get_position());
     sprite.setScale(PEASHOOTER_SCALE);
 }
@@ -50,15 +56,15 @@ void Invasive_Plant::change_status(bool have_zombie_in_front)
 void Invasive_Plant::shoot(Game *game)
 {
     if (type == PEASHOOTER)
-        game->add_pea(REGULAR, block->get_line(), sprite.getPosition().x + 40, 10,6);
+        game->add_pea(REGULAR, block->get_line(), sprite.getPosition().x + 40, 10, 6);
     if (type == FROZEN_PEASHOOTER)
-        game->add_pea(FROZEN, block->get_line(), sprite.getPosition().x, 15,6);
+        game->add_pea(FROZEN, block->get_line(), sprite.getPosition().x, 15, 6);
 }
 
 void Invasive_Plant::update(bool have_zombie_in_front, Game *game)
 {
     frame_time += frame_clock.restart();
-    speed_time += speed_clock.restart();
+    shoot_speed_time += shoot_speed_clock.restart();
     change_status(have_zombie_in_front);
     if (frame_time >= interval_frame)
     {
@@ -74,14 +80,17 @@ void Invasive_Plant::update(bool have_zombie_in_front, Game *game)
             {
                 sprite.setTexture(attack_animation[pic_num % attack_animation.size()]);
                 if (pic_num == 8)
+                {
                     shoot(game);
+                    game->get_shoot_pea_sound()->play();
+                }
                 if (pic_num == attack_animation.size() - 1)
                     in_shotting = false;
             }
-            if (speed_time >= interval_speed)
+            if (shoot_speed_time >= interval_shoot_speed)
             {
                 in_shotting = true;
-                speed_time -= interval_speed;
+                shoot_speed_time -= interval_shoot_speed;
                 pic_num = -1;
             }
         }
@@ -89,4 +98,3 @@ void Invasive_Plant::update(bool have_zombie_in_front, Game *game)
         frame_time -= interval_frame;
     }
 }
-

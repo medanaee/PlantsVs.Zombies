@@ -10,6 +10,7 @@ class Zombie
 {
 private:
     bool is_eating = false;
+    bool play_die_sound = false;
     Sprite sprite;
 
     int line;
@@ -56,4 +57,5 @@ public:
     string get_status();
     void change_eating(bool on_off);
     int get_damage();
+    bool get_play_die_sound();
 };

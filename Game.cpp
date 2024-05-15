@@ -1,62 +1,74 @@
 #include "Game.hpp"
 
-vector<Row *> Game::get_table()
-{
-    return table;
-}
-
-bool Game::running()
-{
-    return window->isOpen();
-}
-
-void Game::add_pea(string type, int line, int start_x, int damage, int speed)
-{
-    peas.push_back(new Pea(type, line, start_x, damage, speed));
-}
+bool Game::running() { return window->isOpen(); }
+vector<Row *> Game::get_table() { return table; }
+Sound *Game::get_shoot_pea_sound() { return &shoot_pea_sound; }
+void Game::add_pea(string type, int line, int start_x, int damage, int speed) { peas.push_back(new Pea(type, line, start_x, damage, speed)); }
 
 bool is_colliding(const Sprite &sprite1, const Sprite &sprite2)
 {
     sf::FloatRect bounds1 = sprite1.getGlobalBounds();
     sf::FloatRect bounds2 = sprite2.getGlobalBounds();
-
     sf::FloatRect intersection;
+
     if (bounds1.intersects(bounds2, intersection))
     {
         int last_col = intersection.left + intersection.width;
         int start_y = intersection.top + intersection.height / 2;
-        if (sprite1.getTexture()->copyToImage().getPixel((last_col - bounds1.left) * 2, (start_y - bounds1.top) * 2).a > 0)
+        if (sprite1.getTexture()->copyToImage().getPixel(COLORED_PIXEL_POSITION).a > 0)
             return true;
     }
     return false;
 }
 
-Game::Game()
-    : frozen_shooter_packet("Frozen PeaShooter", 120, "./Pics/Main Items/Seed-Packet/Frozen Pea-Shooter.png", "./Pics/Main Items/Seed-Packet/Frozen Pea-Shooter Dark.png", "./Pics/Frozen PeaShooter Plant/Idle/Idle01.png", Vector2f(13, 243), seconds(0)),
-      wall_nut_packet("WallNut", 75, "./Pics/Main Items/Seed-Packet/Wall-Nut.png", "./Pics/Main Items/Seed-Packet/Wall-Nut Dark.png", "./Pics/WallNut Plant/Full.png", Vector2f(13, 310), seconds(0)),
-      shooter_packet("PeaShooter", 100, "./Pics/Main Items/Seed-Packet/Pea-Shooter.png", "./Pics/Main Items/Seed-Packet/Pea-Shooter Dark.png", "./Pics/PeaShooter Plant/Idle/Idle01.png", Vector2f(13, 176), seconds(0)),
-      sun_flower_packet("SunFlower", 50, "./Pics/Main Items/Seed-Packet/SunFlower.png", "./Pics/Main Items/Seed-Packet/SunFlower Dark.png", "./Pics/SunFlower Plant/Idle01.png", Vector2f(13, 109), seconds(0)),
-      melon_packet("Melon", 300, "./Pics/Main Items/Seed-Packet/Melon.png", "./Pics/Main Items/Seed-Packet/Melon Dark.png", "./Pics/SunFlower Plant/Idle01.png", Vector2f(13, 377), seconds(0)),
-      sun_packet(10000, "./Pics/Main Items/Sun Bar.png", Vector2f(0, 12))
+Game::Game(Setting setting)
+    : sun_packet(setting.sun_data.money, SUN_BAR_IMAGE, SUN_BAR_POSITION),
+      sun_flower_packet(SUNFLOWER, setting.plants_data[0].price, LIGHT_SUNFLOWER_SEED_PCKET_IMAGE, DARK_SUNFLOWER_SEED_PCKET_IMAGE, "./Pics/SunFlower Plant/Idle01.png", SUNFLOWER_SEED_PCKET_POSITION, seconds(setting.time_data.recharge_duration)),
+      shooter_packet(PEASHOOTER, setting.plants_data[1].price, LIGHT_PEASHOOTER_SEED_PCKET_IMAGE, DARK_PEASHOOTER_SEED_PCKET_IMAGE, "./Pics/PeaShooter Plant/Idle/Idle01.png", PEASHOOTER_SEED_PCKET_POSITION, seconds(setting.time_data.recharge_duration)),
+      frozen_shooter_packet(FROZEN_PEASHOOTER, setting.plants_data[2].price, LIGHT_FROZEN_PEASHOOTER_SEED_PCKET_IMAGE,DARK_FROZEN_PEASHOOTER_SEED_PCKET_IMAGE, "./Pics/Frozen PeaShooter Plant/Idle/Idle01.png", FROZEN_PEASHOOTER_SEED_PCKET_POSITION, seconds(setting.time_data.recharge_duration)),
+      wall_nut_packet(WALLNUT, setting.plants_data[3].price, LIGHT_WALLNUT_SEED_PCKET_IMAGE, DARK_WALLNUT_SEED_PCKET_IMAGE, "./Pics/WallNut Plant/Full.png", WALLNUT_SEED_PCKET_POSITION, seconds(setting.time_data.recharge_duration)),
+      melon_packet(MELON, setting.plants_data[4].price, LIGHT_MELON_SEED_PCKET_IMAGE, DARK_MELON_SEED_PCKET_IMAGE, "./Pics/SunFlower Plant/Idle01.png", MELON_SEED_PCKET_POSITION, seconds(setting.time_data.recharge_duration))
 {
     window = new RenderWindow(VideoMode(1080, 720), "Plants VS. Zombies", Style::Close);
 
+    this->setting = setting;
     for (int i = 0; i < 5; i++)
         table.push_back(new Row(Vector2f(223, 145 + i * 108), i + 1));
 
-    background_texture.loadFromFile("./Pics/Main Items/Background.png");
+    background_texture.loadFromFile(BACKGROUND);
     background.setTexture(background_texture);
 
-    button_texture.loadFromFile("./Pics/Main Items/Button.png");
-    hover_button_texture.loadFromFile("./Pics/Main Items/Button-hover.png");
-    menu_texture.loadFromFile("./Pics/Main Items/Menu.png");
+    start_button_texture.loadFromFile(START_BOTTON);
+    hover_start_button_texture.loadFromFile(HOVER_START_BOTTON);
+    menu_texture.loadFromFile(MENU_IMAGE);
 
     menu.setTexture(menu_texture);
-    button.setTexture(button_texture);
-    button.setPosition(261, 178);
+    start_button.setTexture(start_button_texture);
+    start_button.setPosition(261, 178);
 
-    lose_texture.loadFromFile("./Pics/Main Items/Lose Page.png");
-    win_texture.loadFromFile("./Pics/Main Items/Win Page.png");
+    lose_texture.loadFromFile(LOSE_PAGE);
+    win_texture.loadFromFile(WIN_PAGE);
+
+    main_buffer.loadFromFile(BACKGROUND_SOUND);
+    main_sound.setBuffer(main_buffer);
+
+    lose_buffer.loadFromFile(LOSE_SOUND);
+    lose_sound.setBuffer(lose_buffer);
+
+    win_buffer.loadFromFile(WIN_SOUND);
+    win_sound.setBuffer(win_buffer);
+
+    planting_plant_buffer.loadFromFile(PLANTING_SOUND);
+    planting_plant_sound.setBuffer(planting_plant_buffer);
+
+    eat_plant_buffer.loadFromFile(EAT_SOUND);
+    eat_plant_sound.setBuffer(eat_plant_buffer);
+
+    die_zombie_buffer.loadFromFile(DIE_SOUND);
+    die_zombie_sound.setBuffer(die_zombie_buffer);
+
+    shoot_pea_buffer.loadFromFile(SHOOT_SOUND);
+    shoot_pea_sound.setBuffer(shoot_pea_buffer);
 }
 
 void Game::render_packets()
@@ -135,6 +147,10 @@ void Game::update_zombies()
             {
                 zombie_block->get_plant()->eaten_by(temp_zombie);
                 temp_zombie->change_eating(true);
+                if (eat_plant_sound.getStatus() == SoundSource::Stopped)
+                {
+                    eat_plant_sound.play();
+                }
             }
             else
             {
@@ -145,6 +161,8 @@ void Game::update_zombies()
         if (temp_zombie->get_status() == IDLE)
         {
             page = "lose";
+            main_sound.stop();
+            lose_sound.play();
         }
     }
 
@@ -152,6 +170,8 @@ void Game::update_zombies()
     {
         Zombie *temp_zombie = *it;
 
+        if (temp_zombie->get_play_die_sound())
+            die_zombie_sound.play();
         if (temp_zombie->get_status() == DIE)
         {
             it = zombies.erase(it);
@@ -218,6 +238,7 @@ void Game::check_mouse_click()
                         Sun *temp_sun = *it;
                         if (temp_sun->get_sprite().getGlobalBounds().contains(mouse_position.x, mouse_position.y))
                         {
+                            sun_packet.add_money(50);
                             it = suns.erase(it);
                             delete temp_sun;
                         }
@@ -236,6 +257,7 @@ void Game::check_mouse_click()
                             for (int i = 0; i < 9; i++)
                                 if (temp->get_block(i)->get_area().getGlobalBounds().contains(mouse_position.x, mouse_position.y) && temp->get_block(i)->get_plant() == nullptr)
                                 {
+                                    planting_plant_sound.play();
                                     add_plant(PEASHOOTER, 20, temp->get_block(i));
                                     shooter_packet.release();
                                     shooter_packet.reset_remaining_time();
@@ -255,6 +277,7 @@ void Game::check_mouse_click()
                             for (int i = 0; i < 9; i++)
                                 if (temp->get_block(i)->get_area().getGlobalBounds().contains(mouse_position.x, mouse_position.y) && temp->get_block(i)->get_plant() == nullptr)
                                 {
+                                    planting_plant_sound.play();
                                     add_plant(FROZEN_PEASHOOTER, 20, temp->get_block(i));
                                     frozen_shooter_packet.release();
                                     frozen_shooter_packet.reset_remaining_time();
@@ -274,6 +297,7 @@ void Game::check_mouse_click()
                             for (int i = 0; i < 9; i++)
                                 if (temp->get_block(i)->get_area().getGlobalBounds().contains(mouse_position.x, mouse_position.y) && temp->get_block(i)->get_plant() == nullptr)
                                 {
+                                    planting_plant_sound.play();
                                     add_plant(SUNFLOWER, 20, temp->get_block(i));
                                     sun_flower_packet.release();
                                     sun_flower_packet.reset_remaining_time();
@@ -293,6 +317,7 @@ void Game::check_mouse_click()
                             for (int i = 0; i < 9; i++)
                                 if (temp->get_block(i)->get_area().getGlobalBounds().contains(mouse_position.x, mouse_position.y) && temp->get_block(i)->get_plant() == nullptr)
                                 {
+                                    planting_plant_sound.play();
                                     add_plant(WALLNUT, 400, temp->get_block(i));
                                     wall_nut_packet.release();
                                     wall_nut_packet.reset_remaining_time();
@@ -323,14 +348,14 @@ void Game::check_mouse_click()
             }
         }
 
-        if (page == "menu")
+        if (page == MENU)
         {
             if (event.type == Event::MouseButtonPressed)
             {
                 if (event.mouseButton.button == Mouse::Left)
                 {
                     Vector2i mouse_position = Mouse::getPosition(*window);
-                    if (button.getGlobalBounds().contains(mouse_position.x, mouse_position.y))
+                    if (start_button.getGlobalBounds().contains(mouse_position.x, mouse_position.y))
                     {
                         global_clock.restart();
                         page = "gameplay";
@@ -340,10 +365,10 @@ void Game::check_mouse_click()
             else if (event.type == Event::MouseMoved)
             {
                 Vector2i mouse_position = Mouse::getPosition(*window);
-                if (button.getGlobalBounds().contains(mouse_position.x, mouse_position.y))
-                    button.setTexture(hover_button_texture);
+                if (start_button.getGlobalBounds().contains(mouse_position.x, mouse_position.y))
+                    start_button.setTexture(hover_start_button_texture);
                 else
-                    button.setTexture(button_texture);
+                    start_button.setTexture(start_button_texture);
             }
         }
     }
@@ -386,7 +411,7 @@ void Game::add_sun_from_top()
 
 void Game::add_zombie()
 {
-    Time interval_add_zombie = seconds(5);
+
     add_zombie_time += add_zombie_clock.restart();
     if (add_zombie_time >= interval_add_zombie)
     {
@@ -425,7 +450,7 @@ void Game::add_plant(string type, int health, Block *block)
     {
         plants.push_back(new Invasive_Plant(health, block, FROZEN_PEASHOOTER, seconds(3)));
     }
-    if (type == "Melon")
+    if (type == MELON)
     {
     }
 }
@@ -436,10 +461,10 @@ void Game::render()
 {
     window->clear();
 
-    if (page == "menu")
+    if (page == MENU)
     {
         window->draw(menu);
-        window->draw(button);
+        window->draw(start_button);
     }
     if (page == "gameplay")
     {
@@ -486,8 +511,16 @@ void Game::render()
 void Game::update()
 {
     check_mouse_click();
+    if (page == MENU)
+    {
+        if (main_sound.getStatus() == SoundSource::Stopped)
+        {
+            main_sound.play();
+        }
+    }
     if (page == "gameplay")
     {
+        change_zombie_rate();
         add_zombie();
         // add_peas_test();
 
@@ -515,8 +548,12 @@ void Game::update()
 
         global_time += global_clock.restart();
 
-        if (global_time >= seconds(50))
+        if (global_time >= seconds(100))
+        {
             page = "win";
+            main_sound.stop();
+            win_sound.play();
+        }
     }
     if (page == "lose")
     {
@@ -526,6 +563,8 @@ void Game::update()
     {
         background.setTexture(win_texture);
     }
+
+    // cout << interval_add_zombie.asSeconds() << endl;
 }
 
 ////////////////////////////////////////////////////////////////
@@ -536,6 +575,17 @@ void Game::add_1zombie()
 {
     zombies.push_back(new Zombie(3, 10, 34, 10, REGULAR));
     zombies.push_back(new Zombie(3, 10, 34, 10, REGULAR));
+}
+
+void Game::change_zombie_rate()
+{
+    Time interval_zombie_rate = seconds(8);
+    zombie_rate_time += zombie_rate_clock.restart();
+    if (zombie_rate_time >= interval_zombie_rate)
+    {
+        interval_add_zombie = seconds(interval_add_zombie.asSeconds() - 1);
+        zombie_rate_time -= interval_zombie_rate;
+    }
 }
 
 void Game::add_peas_test()

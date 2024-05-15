@@ -25,9 +25,9 @@ private:
     sf::Time frame_time = sf::Time::Zero;
     Time interval_frame = seconds(PEA_FRAME_RATE);
 
-    sf::Clock speed_clock;
-    sf::Time speed_time = sf::Time::Zero;
-    Time interval_speed;
+    sf::Clock shoot_speed_clock;
+    sf::Time shoot_speed_time = sf::Time::Zero;
+    Time interval_shoot_speed;
 
     int pic_num = 0;
     bool in_shotting = false;

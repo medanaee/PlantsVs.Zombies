@@ -14,9 +14,9 @@ Setting extractor_setting()
     }
 
     string line;
-    regex zombie_regex("Zombies:(\\w+)=(\\d+)-(\\d+)-(\\d+)-(\\d+)");
+    regex zombie_regex("Zombies:(\\w+)=(\\d+)-(\\d+)-(\\d+)");
     regex plant_regex("Plants:(\\w+)=(\\d+)-(\\d+)-(\\d+)-(\\d+)-(\\d+)-(\\d+)");
-    regex time_regex("Times:(\\d+)-(\\d+)-([\\d.-]+)-([\\d.-]+)");
+    regex time_regex("Times:(\\d+)-(\\d+)-([\\d.-]+)-([\\d.-]+)-(\\d+)");
     regex sun_regex("Sun:(\\d+)-(\\d+)-(\\d+)");
 
     while (getline(file, line))
@@ -55,16 +55,7 @@ Setting extractor_setting()
             set.time_data.first_time_flag = stoi(match[2]);
             set.time_data.initial_duration_zombie_attack = stof(match[3]);
             set.time_data.decrease_duration_zombie_attack = stof(match[4]);
-        }
-
-        if (regex_match(line, match, zombie_regex))
-        {
-            ZombieSetting zombie;
-            zombie.type = match[1];
-            zombie.damage = stoi(match[2]);
-            zombie.health = stoi(match[3]);
-            zombie.speed = stoi(match[4]);
-            set.zombies_data.push_back(zombie);
+            set.time_data.recharge_duration = stoi(match[5]);
         }
 
         // Extract sun data
@@ -78,5 +69,4 @@ Setting extractor_setting()
     file.close();
 
     return set;
-
 }

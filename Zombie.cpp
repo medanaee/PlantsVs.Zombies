@@ -11,6 +11,11 @@ string Zombie::get_status() { return status; }
 void Zombie::change_eating(bool on_off) { on_off == true ? is_eating = true : is_eating = false; }
 int Zombie::get_damage() { return damage; }
 
+bool Zombie::get_play_die_sound()
+{
+    return play_die_sound;
+}
+
 void Zombie::set_line(int line)
 {
     switch (line)
@@ -103,6 +108,10 @@ void Zombie::update_animation()
         else if (status == DYING)
         {
             sprite.setTexture(die_animation[pic_num % die_animation.size()]);
+            if(pic_num == 3)
+                play_die_sound = 1;
+            else
+                play_die_sound = 0;
             if (pic_num == 8)
                 status = DIE;
         }
@@ -121,10 +130,11 @@ void Zombie::update_animation()
         frame_time -= interval_frame;
         pic_num++;
     }
-    // if(frozed_duration.asSeconds() > 0)
-    // {
-    //     sprite.setColor(Color(0,0,255,50));
-    // }
+    if(frozed_duration.asSeconds() > 0)
+    {
+       
+        
+    }
 }
 
 void Zombie::update_position()
@@ -160,13 +170,9 @@ void Zombie::change_status()
         pic_num = 0;
     }
     if (is_eating && health > 0)
-    {
         status = EAT;
-    }
     if (status == EAT && !is_eating && !(sprite.getPosition().x <= HOUSE_BORDER) && !(type == ANGRY && health <= (initial_health) / 3) && !(health <= 0))
-    {
         status = WALK;
-    }
 }
 
 void Zombie::getting_hit(Pea pea)

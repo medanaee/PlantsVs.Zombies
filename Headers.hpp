@@ -23,6 +23,7 @@
 
 
 /////Main Items
+#define COLORED_PIXEL_POSITION (last_col - bounds1.left) * 2, (start_y - bounds1.top) * 2
 #define PRICE_TEXT_POSITION sprite.getPosition().x + 66, sprite.getPosition().y + 31
 #define REMANING_TIME_POSITION sprite.getPosition().x + 78, sprite.getPosition().y + 7
 #define BUDGET_POSITION sprite.getPosition().x + 100, sprite.getPosition().y + 28
@@ -37,16 +38,52 @@
 #define LINE_THREE_START_POSITION Vector2f(980, 266)
 #define LINE_FOUR_START_POSITION Vector2f(980, 374)
 #define LINE_FIVE_START_POSITION Vector2f(980, 482)
+#define SUN_BAR_POSITION Vector2f(0, 12)
 #define SEED_PACKET_SCALE 0.5, 0.5
 #define HOUSE_BORDER 100
 #define TEXT_COLOR Color::White
 #define DEFAULT_COLOR Color(0, 0, 0, 0)
 #define HIGHLIGHT_COLOR Color(255, 255, 255, 50)
+#define SUN_BAR_IMAGE "./Pics/Main Items/Sun Bar.png"
 #define REGULAR_PEA_IMAGE "./Pics/Main Items/Pea.png"
 #define FROZEN_PEA_IMAGE "./Pics/Main Items/Frozen Pea.png"
 #define LILITA_FONT "./Fonts/LilitaOne.ttf"
 #define MPLUS_FONT "./Fonts/MPLUS.ttf"
+#define BACKGROUND "./Pics/Main Items/Background.png"
+#define START_BOTTON "./Pics/Main Items/StartButton.png"
+#define HOVER_START_BOTTON "./Pics/Main Items/StartButton Hover.png"
+#define MENU_IMAGE "./Pics/Main Items/Menu.png"
+#define LOSE_PAGE "./Pics/Main Items/Lose Page.png"
+#define WIN_PAGE "./Pics/Main Items/Win Page.png"
 
+
+
+/////Sounds
+#define BACKGROUND_SOUND "./Sounds/Main.ogg"
+#define WIN_SOUND "./Sounds/Win.ogg"
+#define LOSE_SOUND "./Sounds/Lose.ogg"
+#define PLANTING_SOUND "./Sounds/Planting Plant.ogg"
+#define EAT_SOUND "./Sounds/Eat Plant.ogg"
+#define DIE_SOUND "./Sounds/Die Zombie.ogg"
+#define SHOOT_SOUND "./Sounds/Shoot Pea.ogg"
+#define ANGRY_MOD_SOUND
+
+/////Seed-Packets
+#define LIGHT_SUNFLOWER_SEED_PCKET_IMAGE "./Pics/Main Items/Seed-Packet/SunFlower.png"
+#define LIGHT_PEASHOOTER_SEED_PCKET_IMAGE "./Pics/Main Items/Seed-Packet/Pea-Shooter.png"
+#define LIGHT_FROZEN_PEASHOOTER_SEED_PCKET_IMAGE "./Pics/Main Items/Seed-Packet/Frozen Pea-Shooter.png"
+#define LIGHT_WALLNUT_SEED_PCKET_IMAGE "./Pics/Main Items/Seed-Packet/Wall-Nut.png"
+#define LIGHT_MELON_SEED_PCKET_IMAGE "./Pics/Main Items/Seed-Packet/Melon.png"
+#define DARK_SUNFLOWER_SEED_PCKET_IMAGE "./Pics/Main Items/Seed-Packet/SunFlower Dark.png"
+#define DARK_PEASHOOTER_SEED_PCKET_IMAGE "./Pics/Main Items/Seed-Packet/Pea-Shooter Dark.png"
+#define DARK_FROZEN_PEASHOOTER_SEED_PCKET_IMAGE "./Pics/Main Items/Seed-Packet/Frozen Pea-Shooter Dark.png"
+#define DARK_WALLNUT_SEED_PCKET_IMAGE "./Pics/Main Items/Seed-Packet/Wall-Nut Dark.png"
+#define DARK_MELON_SEED_PCKET_IMAGE "./Pics/Main Items/Seed-Packet/Melon Dark.png"
+#define MELON_SEED_PCKET_POSITION Vector2f(13, 377)
+#define WALLNUT_SEED_PCKET_POSITION Vector2f(13, 310)
+#define FROZEN_PEASHOOTER_SEED_PCKET_POSITION Vector2f(13, 243)
+#define PEASHOOTER_SEED_PCKET_POSITION Vector2f(13, 176)
+#define SUNFLOWER_SEED_PCKET_POSITION Vector2f(13, 109)
 
 /////Type
 #define MOBILE "Mobile"
@@ -59,7 +96,7 @@
 #define WALLNUT "WallNut"
 #define SUNFLOWER "SunFlower"
 #define MELON "Melon"
-#define MENU "menu"
+#define MENU "Menu"
 #define GAMEPLAY "gameplay"
 
 

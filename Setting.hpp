@@ -29,6 +29,7 @@ struct TimeSetting
     int first_time_flag;
     float initial_duration_zombie_attack;
     float decrease_duration_zombie_attack;
+    int recharge_duration;
 };
 
 struct SunSetting
