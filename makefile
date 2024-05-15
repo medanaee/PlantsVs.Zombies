@@ -1,10 +1,10 @@
 out_path = ./outputs/
 
 clear: run
-	rm -f PVZ
+	rm -f pvz
 
-run: PVZ
-	./PVZ
+run: pvz
+	./pvz
 		
 ./outputs/Seed_Packet.o: Seed_Packet.cpp Seed_Packet.hpp Headers.hpp
 	g++ -c $< -o $@
@@ -45,8 +45,8 @@ run: PVZ
 ./outputs/Setting.o: Setting.cpp Setting.hpp Headers.hpp
 	g++ -c $< -o $@
 
-PVZ: $(out_path)PVZ.o $(out_path)Defender_Plant.o $(out_path)Game.o $(out_path)Sun_Plant.o $(out_path)Setting.o $(out_path)Zombie.o $(out_path)Seed_Packet.o $(out_path)Sun_Packet.o $(out_path)Sun.o $(out_path)Row.o $(out_path)Block.o $(out_path)Pea.o $(out_path)Plant.o $(out_path)Invasive_Plant.o
-	g++ $^ -o PVZ -lsfml-graphics -lsfml-window -l sfml-system -lsfml-audio
+pvz: $(out_path)pvz.o $(out_path)Defender_Plant.o $(out_path)Game.o $(out_path)Sun_Plant.o $(out_path)Setting.o $(out_path)Zombie.o $(out_path)Seed_Packet.o $(out_path)Sun_Packet.o $(out_path)Sun.o $(out_path)Row.o $(out_path)Block.o $(out_path)Pea.o $(out_path)Plant.o $(out_path)Invasive_Plant.o
+	g++ $^ -o pvz -lsfml-graphics -lsfml-window -l sfml-system -lsfml-audio
 
-./outputs/PVZ.o: PVZ.cpp Game.hpp
+./outputs/pvz.o: pvz.cpp Game.hpp
 	g++ -c $< -o $@
