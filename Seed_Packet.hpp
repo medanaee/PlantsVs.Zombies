@@ -9,33 +9,38 @@ class Seed_Packet
     private:
     pair<Texture, Texture> light_dark_images;
     Sprite sprite;
-    Texture plant_image;
-    Sprite plant_sprite;
     Font lilita_one;
     Font mplus1;
+
+    Texture plant_image;
+    Sprite plant_sprite;
+
     Time charge_time;
+    //ALI
     Time remaning_time = seconds(0);
     Time interval_time = seconds(0.1f);
     Time time = Time::Zero;
     Clock clock;
+    
+    Text remaining_time_preview();
+    Text price_preview();
+    
     int price;
-
-    bool selected = 0;
-    bool available = 0;
+    bool selected = false;
+    bool available = false;
  
     public:
+
     Seed_Packet(string type,int price, string light_path, string dark_path, string plant_image_path, Vector2f pos, Time charge_time);
-    Text get_remaining_time();
-    Text plant_price();
-    Sprite get_sprite();
     Sprite get_plant_sprite();
     void update(int budget);
-    
-    void set_plant_pos(Vector2f pos);
-    bool get_select();
+    void show(RenderWindow *window);
+    void show_preview(Vector2f pos);
+    bool selection_status();
     void select();
     void release();
     bool is_avaliable();
+    Sprite get_sprite();
     void reset_remaining_time();
-    int get_price();
+    int cost();
 };

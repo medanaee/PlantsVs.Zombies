@@ -11,7 +11,7 @@ int main()
     // {
     //     pvz.add_pea("FROZEN", i + 1, 50, 20);
     // }
-    pvz.add_1zombie();
+    // pvz.add_1zombie();
     
 
     while (pvz.running())

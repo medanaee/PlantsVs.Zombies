@@ -12,10 +12,10 @@ class Defender_Plant : public Plant
 private:
     int inital_health;
     Sprite sprite;
-    Texture FULL_helth_animation;
-    Texture HASHTAD_helth_animation;
-    Texture SHAAAAST_helth_animation;
-    Texture CHALOOPANJ_helth_animation;
+    Texture perfect_helth_animation;
+    Texture high_helth_animation;
+    Texture medium_helth_animation;
+    Texture low_helth_animation;
 
 public:
     Defender_Plant(int health, Block *block);

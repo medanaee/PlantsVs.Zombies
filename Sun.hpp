@@ -8,12 +8,15 @@ class Sun
 private:
     Texture picture;
     Sprite sprite;
+    
     int speed;
+    string type;
+
     Clock move_clock;
     Time move_time = Time::Zero;
     Clock remove_clock;
     Time remove_time = Time::Zero;
-    string type;
+    
 
 public:
     Sun(float pos_x,int speed);

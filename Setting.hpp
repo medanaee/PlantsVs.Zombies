@@ -34,6 +34,7 @@ struct TimeSetting
 struct SunSetting
 {
     int vertical_speed;
+    int generate_speed;
     int money;
 };
 
@@ -45,4 +46,4 @@ struct Setting
     SunSetting sun_data;
 };
 
-Setting setting();
+Setting extractor_setting();

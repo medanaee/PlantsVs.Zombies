@@ -9,8 +9,7 @@ using namespace sf;
 class Zombie
 {
 private:
-
-    bool is_eating = 0;
+    bool is_eating = false;
     Sprite sprite;
 
     int line;
@@ -21,7 +20,7 @@ private:
     string type;
 
     int pic_num = 0;
-    string status = "WALKING";
+    string status = WALK;
 
     vector<Texture> walk_animation;
     vector<Texture> die_animation;
@@ -38,10 +37,11 @@ private:
     // Best time 0.4f
     Time interval_move = seconds(0.4f);
 
-    // Best time 0.2f
-    Time interval_frame = seconds(0.2f);
+    Time interval_frame = ZOMBIE_ANIMATION_SPEED;
 
-    void animation_geneartor(string pics_path, string animation_type);
+    void set_line(int line);
+    void animation_geneartor_by_type(string pics_path, string animation_type);
+    void animation_generator();
     void update_animation();
     void update_position();
 
@@ -54,7 +54,6 @@ public:
     int get_health();
     void getting_hit(Pea pea);
     string get_status();
-    void change_eating();
-    void change_no_eating();
+    void change_eating(bool on_off);
     int get_damage();
 };

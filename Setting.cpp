@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Setting setting()
+Setting extractor_setting()
 {
     Setting set;
 
@@ -17,7 +17,7 @@ Setting setting()
     regex zombie_regex("Zombies:(\\w+)=(\\d+)-(\\d+)-(\\d+)-(\\d+)");
     regex plant_regex("Plants:(\\w+)=(\\d+)-(\\d+)-(\\d+)-(\\d+)-(\\d+)-(\\d+)");
     regex time_regex("Times:(\\d+)-(\\d+)-([\\d.-]+)-([\\d.-]+)");
-    regex sun_regex("Sun:(\\d+)-(\\d+)");
+    regex sun_regex("Sun:(\\d+)-(\\d+)-(\\d+)");
 
     while (getline(file, line))
     {
@@ -71,7 +71,8 @@ Setting setting()
         else if (regex_match(line, match, sun_regex))
         {
             set.sun_data.vertical_speed = stoi(match[1]);
-            set.sun_data.money = stoi(match[2]);
+            set.sun_data.generate_speed = stoi(match[2]);
+            set.sun_data.money = stoi(match[3]);
         }
     }
     file.close();

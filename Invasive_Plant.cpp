@@ -1,13 +1,30 @@
 #include "Invasive_Plant.hpp"
 
+Sprite Invasive_Plant::get_sprite() { return sprite; }
+
+Invasive_Plant::Invasive_Plant(int health, Block *block, string type, Time interval_speed) : Plant(health, type, block)
+{
+    this->interval_speed = interval_speed;
+    if (type == PEASHOOTER)
+    {
+        animation_geneartor(PEASHOOTER_ANIMATION, IDLE);
+        animation_geneartor(PEASHOOTER_ANIMATION, ATTACK);
+    }
+    else if (type == FROZEN_PEASHOOTER)
+    {
+        animation_geneartor(FROZEN_PEASHOOTER_ANIMATION, IDLE);
+        animation_geneartor(FROZEN_PEASHOOTER_ANIMATION, ATTACK);
+    }
+    sprite.setPosition(block->get_position());
+    sprite.setScale(PEASHOOTER_SCALE);
+}
+
 void Invasive_Plant::animation_geneartor(string pics_path, string animation_type)
 {
     vector<filesystem::__cxx11::directory_entry> files;
     for (const auto &entry : filesystem::directory_iterator(pics_path + "/" + animation_type))
         if (filesystem::is_regular_file(entry.path()))
-        {
             files.push_back(entry);
-        }
 
     sort(files.begin(), files.end(), compare_files_by_name);
 
@@ -15,45 +32,56 @@ void Invasive_Plant::animation_geneartor(string pics_path, string animation_type
     {
         Texture temp_pic;
         temp_pic.loadFromFile(file.path().string());
-        if (animation_type == "Idle")
+        if (animation_type == IDLE)
             idle_animation.push_back(temp_pic);
-        else if (animation_type == "Attack")
+        else if (animation_type == ATTACK)
             attack_animation.push_back(temp_pic);
     }
 }
 
-Sprite Invasive_Plant::get_sprite()
+void Invasive_Plant::change_status(bool have_zombie_in_front)
 {
-    return sprite;
+    if (have_zombie_in_front)
+        status = ATTACK;
+    else
+        status = IDLE;
+}
+
+void Invasive_Plant::shoot(Game *game)
+{
+    if (type == PEASHOOTER)
+        game->add_pea(REGULAR, block->get_line(), sprite.getPosition().x + 40, 10,6);
+    if (type == FROZEN_PEASHOOTER)
+        game->add_pea(FROZEN, block->get_line(), sprite.getPosition().x, 15,6);
 }
 
 void Invasive_Plant::update(bool have_zombie_in_front, Game *game)
 {
     frame_time += frame_clock.restart();
-    change_attack_time += change_attack_clock.restart();
+    speed_time += speed_clock.restart();
     change_status(have_zombie_in_front);
     if (frame_time >= interval_frame)
     {
-        if (status == "Idle")
+        if (status == IDLE)
         {
             sprite.setTexture(idle_animation[pic_num % idle_animation.size()]);
         }
-        if (status == "Attack")
+        if (status == ATTACK)
         {
-            if (!shot)
+            if (!in_shotting)
                 sprite.setTexture(idle_animation[pic_num % idle_animation.size()]);
-            if (shot)
+            else
             {
                 sprite.setTexture(attack_animation[pic_num % attack_animation.size()]);
                 if (pic_num == 8)
                     shoot(game);
                 if (pic_num == attack_animation.size() - 1)
-                    shot = 0;
+                    in_shotting = false;
             }
-            if (change_attack_time >= interval_change_attack)
+            if (speed_time >= interval_speed)
             {
-                shot = 1;
-                change_attack_time -= interval_change_attack;
+                in_shotting = true;
+                speed_time -= interval_speed;
                 pic_num = -1;
             }
         }
@@ -62,34 +90,3 @@ void Invasive_Plant::update(bool have_zombie_in_front, Game *game)
     }
 }
 
-void Invasive_Plant::change_status(bool have_zombie_in_front)
-{
-    if (have_zombie_in_front)
-        status = "Attack";
-    else
-        status = "Idle";
-}
-
-void Invasive_Plant::shoot(Game *game)
-{
-    if (type == "PeaShooter")
-        game->add_pea("REGULAR", block->get_line(), sprite.getPosition().x + 40, 10);
-    if (type == "FrozenPeaShooter")
-        game->add_pea("FROZEN", block->get_line(), sprite.getPosition().x, 15);
-}
-
-Invasive_Plant::Invasive_Plant(int health, Block *block, string type) : Plant(health, type, block)
-{
-    if (type == "PeaShooter")
-    {
-        animation_geneartor("./Pics/Pea-Shooter Plant", "Idle");
-        animation_geneartor("./Pics/Pea-Shooter Plant", "Attack");
-    }
-    else if (type == "FrozenPeaShooter")
-    {
-        animation_geneartor("./Pics/Frozen Pea-Shooter Plant", "Idle");
-        animation_geneartor("./Pics/Frozen Pea-Shooter Plant", "Attack");
-    }
-    sprite.setPosition(block->get_position());
-    sprite.setScale(0.18, 0.18);
-}

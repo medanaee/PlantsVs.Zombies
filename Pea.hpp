@@ -14,14 +14,14 @@ private:
     Sprite sprite;
     string type;
     int line;
-    int speed = 10;
+    int speed;
     int damage;
 
     Clock move_clock;
     Time move_time = Time::Zero;
 
 public:
-    Pea(string type, int line ,int start_x,int damage);
+    Pea(string type, int line ,int start_x,int damage,int speed);
     void update();
     Vector2f get_position();
     Sprite get_sprite();

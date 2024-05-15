@@ -2,10 +2,12 @@
 
 #include "Headers.hpp"
 #include "Plant.hpp"
-class Plant;
 
 using namespace std;
 using namespace sf;
+
+
+class Plant;
 
 class Block
 {
@@ -19,9 +21,9 @@ public:
     RectangleShape get_area();
     Vector2f get_position();
     void highlight_area();
-    void reset_area_color();
+    void defaultlight_area();
     int get_line();
-    void set_plant(Plant* plant);
+    void put_plant(Plant* plant);
     Plant* get_plant();
 };
 

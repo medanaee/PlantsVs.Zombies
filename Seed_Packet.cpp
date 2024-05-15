@@ -9,20 +9,23 @@ std::string float_to_string(float number)
     return oss.str();
 }
 
-Sprite Seed_Packet::get_sprite() { return sprite; }
-
-Sprite Seed_Packet::get_plant_sprite()
-{
-    return plant_sprite;
-}
+void Seed_Packet::show_preview(Vector2f pos) { plant_sprite.setPosition(pos); }
+bool Seed_Packet::selection_status() { return selected; }
+void Seed_Packet::select() { selected = true; }
+void Seed_Packet::release() { selected = false; }
+bool Seed_Packet::is_avaliable() { return available; }
+void Seed_Packet::reset_remaining_time() { remaning_time = charge_time; }
+int Seed_Packet::cost() { return price; }
+Sprite Seed_Packet::get_plant_sprite() { return plant_sprite; }
+Sprite Seed_Packet::get_sprite(){return sprite;}
 
 Seed_Packet::Seed_Packet(string type, int price, string light_path, string dark_path, string plant_image_path, Vector2f pos, Time charge_time)
 {
     this->price = price;
     this->charge_time = charge_time;
 
-    lilita_one.loadFromFile("./Fonts/LilitaOne.ttf");
-    mplus1.loadFromFile("./Fonts/MPLUS.ttf");
+    lilita_one.loadFromFile(LILITA_FONT);
+    mplus1.loadFromFile(MPLUS_FONT);
 
     light_dark_images.first.loadFromFile(light_path);
     light_dark_images.second.loadFromFile(dark_path);
@@ -33,22 +36,22 @@ Seed_Packet::Seed_Packet(string type, int price, string light_path, string dark_
     sprite.setTexture(light_dark_images.second);
     sprite.setPosition(pos);
 
-    sprite.scale(0.5, 0.5);
-    if (type == "FrozenPeaShooter" || type == "PeaShooter")
-        plant_sprite.scale(0.18, 0.18);
-    if (type == "SunFlower")
-        plant_sprite.scale(0.47, 0.47);
-    if(type == "WallNut")
-        plant_sprite.scale(0.24,0.24);
+    sprite.scale(SEED_PACKET_SCALE);
+    if (type == FROZEN_PEASHOOTER || type == PEASHOOTER)
+        plant_sprite.scale(PEASHOOTER_SCALE);
+    if (type == SUNFLOWER)
+        plant_sprite.scale(SUNFLOWER_SCALE);
+    if (type == WALLNUT)
+        plant_sprite.scale(WALLNUT_SCALE);
 }
 
-Text Seed_Packet::get_remaining_time()
+Text Seed_Packet::remaining_time_preview()
 {
     Text remaning_time_text;
     remaning_time_text.setFont(mplus1);
-    remaning_time_text.setCharacterSize(14);
-    remaning_time_text.setFillColor(Color::White);
-    remaning_time_text.setPosition(Vector2f(sprite.getPosition().x + 78, sprite.getPosition().y + 7));
+    remaning_time_text.setCharacterSize(REMAINING_TIME_TEXT_SIZE);
+    remaning_time_text.setFillColor(TEXT_COLOR);
+    remaning_time_text.setPosition(Vector2f(REMANING_TIME_POSITION));
 
     if (remaning_time != seconds(0))
         remaning_time_text.setString(float_to_string(((float)remaning_time.asSeconds())));
@@ -57,23 +60,30 @@ Text Seed_Packet::get_remaining_time()
     return remaning_time_text;
 }
 
-Text Seed_Packet::plant_price()
+Text Seed_Packet::price_preview()
 {
     Text price_text;
     price_text.setFont(lilita_one);
     price_text.setString(to_string(price));
-    price_text.setCharacterSize(20);
-    price_text.setFillColor(Color::White);
-    price_text.setPosition(Vector2f(sprite.getPosition().x + 66, sprite.getPosition().y + 31));
+    price_text.setCharacterSize(PRICE_TEXT_SIZE);
+    price_text.setFillColor(TEXT_COLOR);
+    price_text.setPosition(Vector2f(PRICE_TEXT_POSITION));
     return price_text;
+}
+
+void Seed_Packet::show(RenderWindow *window)
+{
+    window->draw(sprite);
+    window->draw(remaining_time_preview());
+    window->draw(price_preview());
 }
 
 void Seed_Packet::update(int budget)
 {
     if (remaning_time == seconds(0) && price <= budget)
-        available = 1;
+        available = true;
     else
-        available = 0;
+        available = false;
 
     if (available)
         sprite.setTexture(light_dark_images.first);
@@ -91,39 +101,4 @@ void Seed_Packet::update(int budget)
             time -= interval_time;
         }
     }
-}
-
-void Seed_Packet::set_plant_pos(Vector2f pos)
-{
-    plant_sprite.setPosition(pos);
-}
-
-bool Seed_Packet::get_select()
-{
-    return selected;
-}
-
-void Seed_Packet::select()
-{
-    selected = 1;
-}
-
-void Seed_Packet::release()
-{
-    selected = 0;
-}
-
-bool Seed_Packet::is_avaliable()
-{
-    return available;
-}
-
-void Seed_Packet::reset_remaining_time()
-{
-    remaning_time = charge_time;
-}
-
-int Seed_Packet::get_price()
-{
-    return price;
 }
