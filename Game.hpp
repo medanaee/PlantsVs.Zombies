@@ -19,6 +19,8 @@ using namespace sf;
 
 bool is_colliding(const Sprite &sprite1, const Sprite &sprite2);
 
+
+
 class Game
 {
 private:
@@ -33,7 +35,7 @@ private:
     Seed_Packet sun_flower_packet;
     void put_sun_flower(Vector2f mouse_position);
     Seed_Packet melon_packet;
-    // void put_melon(Vector2f mouse_position);
+    void put_melon(Vector2f mouse_position);
     Sun_Packet sun_packet;
 
     void render_packets();
@@ -75,6 +77,7 @@ private:
     Texture lose_texture;
     Texture win_texture;
     void extract_menu_images();
+    Zombie * find_target_zombie(Plant* plant);
 
     ////////////////////////////////////////////////////
 

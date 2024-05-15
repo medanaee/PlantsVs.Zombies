@@ -8,7 +8,6 @@ using namespace sf;
 int main()
 {
     Setting setting = extractor_setting();
-    cout<<setting.sun_data.money<<endl;
     Game pvz(setting);
     // for(int i = 0; i < 5; i++)
     // {

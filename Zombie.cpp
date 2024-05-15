@@ -16,6 +16,7 @@ bool Zombie::get_play_die_sound()
     return play_die_sound;
 }
 
+
 void Zombie::set_line(int line)
 {
     switch (line)

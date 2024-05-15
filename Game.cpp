@@ -22,6 +22,24 @@ bool is_colliding(const Sprite &sprite1, const Sprite &sprite2)
     return false;
 }
 
+Zombie *Game::find_target_zombie(Plant *plant)
+{
+    vector<Zombie*> same_line_zombies;
+    Zombie* target = nullptr;
+    for(Zombie* temp_zombie : zombies)
+        if(plant->get_block()->get_line() == temp_zombie->get_line() && temp_zombie->get_sprite().getPosition().x + 69 >= plant->get_block()->get_position().x)
+            same_line_zombies.push_back(temp_zombie);
+
+    if(same_line_zombies.size() != 0)
+        target = same_line_zombies[0];
+
+    for(Zombie* temp_zombie : same_line_zombies)
+        if(temp_zombie->get_sprite().getPosition().x < target->get_sprite().getPosition().x)
+            target = temp_zombie;
+
+    return target;
+}
+
 void Game::extract_sounds()
 {
     main_buffer.loadFromFile(BACKGROUND_SOUND);
@@ -68,7 +86,7 @@ Game::Game(Setting setting)
       shooter_packet(PEASHOOTER, setting.plants_data[1].price, LIGHT_PEASHOOTER_SEED_PCKET_IMAGE, DARK_PEASHOOTER_SEED_PCKET_IMAGE, "./Pics/PeaShooter Plant/Idle/Idle01.png", PEASHOOTER_SEED_PCKET_POSITION, seconds(setting.time_data.recharge_duration)),
       frozen_shooter_packet(FROZEN_PEASHOOTER, setting.plants_data[2].price, LIGHT_FROZEN_PEASHOOTER_SEED_PCKET_IMAGE, DARK_FROZEN_PEASHOOTER_SEED_PCKET_IMAGE, "./Pics/Frozen PeaShooter Plant/Idle/Idle01.png", FROZEN_PEASHOOTER_SEED_PCKET_POSITION, seconds(setting.time_data.recharge_duration)),
       wall_nut_packet(WALLNUT, setting.plants_data[3].price, LIGHT_WALLNUT_SEED_PCKET_IMAGE, DARK_WALLNUT_SEED_PCKET_IMAGE, "./Pics/WallNut Plant/Full.png", WALLNUT_SEED_PCKET_POSITION, seconds(setting.time_data.recharge_duration)),
-      melon_packet(MELON, setting.plants_data[4].price, LIGHT_MELON_SEED_PCKET_IMAGE, DARK_MELON_SEED_PCKET_IMAGE, "./Pics/SunFlower Plant/Idle01.png", MELON_SEED_PCKET_POSITION, seconds(setting.time_data.recharge_duration))
+      melon_packet(MELON, setting.plants_data[4].price, LIGHT_MELON_SEED_PCKET_IMAGE, DARK_MELON_SEED_PCKET_IMAGE, "./Pics/Melon Plant/Idle/01.png", MELON_SEED_PCKET_POSITION, seconds(setting.time_data.recharge_duration))
 {
     window = new RenderWindow(VideoMode(1080, 720), "Plants VS. Zombies", Style::Close);
 
@@ -120,12 +138,13 @@ void Game::end()
 void Game::mouse_move()
 {
     Vector2i mouse_position = Mouse::getPosition(*window);
-    if (shooter_packet.selection_status() || frozen_shooter_packet.selection_status() || sun_flower_packet.selection_status() || wall_nut_packet.selection_status())
+    if (shooter_packet.selection_status() || frozen_shooter_packet.selection_status() || sun_flower_packet.selection_status() || wall_nut_packet.selection_status() || melon_packet.selection_status())
     {
         shooter_packet.show_preview((Vector2f)mouse_position);
         frozen_shooter_packet.show_preview((Vector2f)mouse_position);
         sun_flower_packet.show_preview((Vector2f)mouse_position);
         wall_nut_packet.show_preview((Vector2f)mouse_position);
+        melon_packet.show_preview((Vector2f)mouse_position);
 
         for (Row *&temp : table)
             for (int i = 0; i < 9; i++)
@@ -192,7 +211,7 @@ void Game::check_collision()
             Pea *temp_pea = *it;
             if (is_colliding(temp_zombie->get_sprite(), temp_pea->get_sprite()) && temp_pea->get_line() == temp_zombie->get_line())
             {
-                temp_zombie->getting_hit(*temp_pea,setting.plants_data[2].cooldown);
+                temp_zombie->getting_hit(*temp_pea, setting.plants_data[2].cooldown);
                 it = peas.erase(it);
                 delete temp_pea;
             }
@@ -285,6 +304,7 @@ void Game::put_shooter(Vector2f mouse_position)
                 }
     }
 }
+
 void Game::put_sun_flower(Vector2f mouse_position)
 {
     if (sun_flower_packet.get_sprite().getGlobalBounds().contains(mouse_position.x, mouse_position.y) && sun_flower_packet.is_avaliable())
@@ -307,6 +327,30 @@ void Game::put_sun_flower(Vector2f mouse_position)
                 }
     }
 }
+
+void Game::put_melon(Vector2f mouse_position)
+{
+    if (melon_packet.get_sprite().getGlobalBounds().contains(mouse_position.x, mouse_position.y) && melon_packet.is_avaliable())
+    {
+        melon_packet.select();
+        melon_packet.show_preview(mouse_position);
+    }
+    if (melon_packet.selection_status())
+    {
+        for (Row *&temp : table)
+            for (int i = 0; i < 9; i++)
+                if (temp->get_block(i)->get_area().getGlobalBounds().contains(mouse_position.x, mouse_position.y) && temp->get_block(i)->get_plant() == nullptr)
+                {
+                    planting_plant_sound.play();
+                    add_plant(MELON, setting.plants_data[4].health, temp->get_block(i));
+                    melon_packet.release();
+                    melon_packet.reset_remaining_time();
+                    sun_packet.spend_money(melon_packet.cost());
+                    temp->get_block(i)->defaultlight_area();
+                }
+    }
+}
+
 void Game::check_mouse_in_gameplay()
 {
     if (event.type == Event::MouseButtonPressed)
@@ -319,7 +363,7 @@ void Game::check_mouse_in_gameplay()
             put_frozen_shooter((Vector2f)mouse_position);
             put_sun_flower((Vector2f)mouse_position);
             put_wallnut((Vector2f)mouse_position);
-            // put_melon((Vector2f)mouse_position);
+            put_melon((Vector2f)mouse_position);
         }
     }
     else if (event.type == Event::MouseMoved)
@@ -428,7 +472,7 @@ void Game::add_plant(string type, int health, Block *block)
     if (type == FROZEN_PEASHOOTER)
         plants.push_back(new Invasive_Plant(health, block, FROZEN_PEASHOOTER, seconds(setting.plants_data[2].hit_rate)));
     if (type == MELON)
-        ;
+        plants.push_back(new Invasive_Plant(health, block, MELON, seconds(setting.plants_data[4].hit_rate)));
 }
 void Game::render_packets()
 {
@@ -494,6 +538,8 @@ void Game::render_previews()
         window->draw(sun_flower_packet.get_plant_sprite());
     if (wall_nut_packet.selection_status())
         window->draw(wall_nut_packet.get_plant_sprite());
+    if (melon_packet.selection_status())
+        window->draw(melon_packet.get_plant_sprite());
 }
 
 void Game::render()
@@ -586,5 +632,5 @@ void Game::update()
     if (page == WIN)
         background.setTexture(win_texture);
 
-    cout << interval_add_zombie.asSeconds() << endl;
+    // cout << interval_add_zombie.asSeconds() << endl;
 }

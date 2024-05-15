@@ -43,6 +43,8 @@ Seed_Packet::Seed_Packet(string type, int price, string light_path, string dark_
         plant_sprite.scale(SUNFLOWER_SCALE);
     if (type == WALLNUT)
         plant_sprite.scale(WALLNUT_SCALE);
+    if (type == MELON)
+        plant_sprite.scale(1.2,1.2);
 }
 
 Text Seed_Packet::remaining_time_preview()

@@ -20,9 +20,17 @@ Invasive_Plant::Invasive_Plant(int health, Block *block, string type, Time inter
         animation_geneartor("./Pics/Melon Plant", IDLE);
         animation_geneartor("./Pics/Melon Plant", ATTACK);
     }
-    
-    sprite.setPosition(block->get_position());
-    sprite.setScale(PEASHOOTER_SCALE);
+
+    if(type == PEASHOOTER || type == FROZEN_PEASHOOTER)
+    {
+        sprite.setPosition(block->get_position());
+        sprite.setScale(PEASHOOTER_SCALE);
+    }
+    if(type == MELON)
+    {
+        sprite.setPosition(block->get_position().x -60, block->get_position().y- 45);
+        sprite.setScale(1.2,1.2);
+    }
 }
 
 void Invasive_Plant::animation_geneartor(string pics_path, string animation_type)
@@ -55,7 +63,7 @@ void Invasive_Plant::change_status(bool have_zombie_in_front)
 
 void Invasive_Plant::shoot(Game *game)
 {
-    //ALI
+    // ALI
     if (type == PEASHOOTER)
         game->add_pea(REGULAR, block->get_line(), sprite.getPosition().x + 60, game->get_setting()->plants_data[1].damage, game->get_setting()->plants_data[1].speed);
     if (type == FROZEN_PEASHOOTER)

@@ -58,4 +58,5 @@ public:
     void change_eating(bool on_off);
     int get_damage();
     bool get_play_die_sound();
+
 };
