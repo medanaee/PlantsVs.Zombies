@@ -13,6 +13,8 @@
 
 
 /////STATUS
+#define WIN "Win"
+#define LOSE "Lose"
 #define DYING "Dying"
 #define DIE "Die"
 #define IDLE "Idle"
@@ -97,7 +99,7 @@
 #define SUNFLOWER "SunFlower"
 #define MELON "Melon"
 #define MENU "Menu"
-#define GAMEPLAY "gameplay"
+#define GAMEPLAY "Gameplay"
 
 
 /////SUNFLOWER
@@ -130,6 +132,7 @@
 
 
 /////Zombies
+#define RANDOM_LINE random() % 5 + 1
 #define ZOMBIE_ANIMATION_SPEED seconds(0.2f)
 #define ZOMBIE_SCALE 0.5, 0.5
 #define REGULAR_ZOMBIE_ANIMATION "./Pics/Regular Zombie"

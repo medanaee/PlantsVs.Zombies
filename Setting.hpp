@@ -36,6 +36,7 @@ struct SunSetting
 {
     int vertical_speed;
     int generate_speed;
+    int budget;
     int money;
 };
 

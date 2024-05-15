@@ -175,14 +175,14 @@ void Zombie::change_status()
         status = WALK;
 }
 
-void Zombie::getting_hit(Pea pea)
+void Zombie::getting_hit(Pea pea,int cooldown)
 {
     health -= pea.get_damage();
     if (pea.get_type() == FROZEN)
     {
         // ALI
         if (frozed_duration == seconds(0))
-            interval_move = seconds(2 * interval_move.asSeconds());
+            interval_move = seconds(cooldown * interval_move.asSeconds());
         frozed_duration += seconds(5);
     }
 }

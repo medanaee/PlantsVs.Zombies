@@ -25,10 +25,15 @@ private:
     Setting setting = extractor_setting();
 
     Seed_Packet frozen_shooter_packet;
+    void put_frozen_shooter(Vector2f mouse_position);
     Seed_Packet wall_nut_packet;
+    void put_wallnut(Vector2f mouse_position);
     Seed_Packet shooter_packet;
+    void put_shooter(Vector2f mouse_position);
     Seed_Packet sun_flower_packet;
+    void put_sun_flower(Vector2f mouse_position);
     Seed_Packet melon_packet;
+    // void put_melon(Vector2f mouse_position);
     Sun_Packet sun_packet;
 
     void render_packets();
@@ -69,22 +74,27 @@ private:
 
     Texture lose_texture;
     Texture win_texture;
-     
+    void extract_menu_images();
+
     ////////////////////////////////////////////////////
 
     vector<Zombie *> zombies;
     void render_line_zombies(int line);
     void render_zombies();
     void update_zombies();
+    void is_die_zombies();
+    Block *find_zombie_block(Zombie *temp_zombie);
 
     vector<Sun *> suns;
     void render_suns();
     void update_suns();
+    void click_suns(Vector2f mouse_position);
 
     vector<Plant *> plants;
-    void rener_line_plants(int line);
+    void render_line_plants(int line);
     void render_plants();
     void update_plants();
+    void render_previews();
 
     vector<Row *> table;
     void render_table();
@@ -97,7 +107,10 @@ private:
     bool have_zombie_in_front(Plant *plant);
 
     string page = MENU;
-
+    void check_mouse_in_gameplay();
+    void check_mouse_click_in_menu();
+    void end();
+    void mouse_move();
 
     /////////////////////////////////////////////////////
 
@@ -116,6 +129,7 @@ private:
     Sound eat_plant_sound;
     Sound die_zombie_sound;
     Sound shoot_pea_sound;
+    void extract_sounds();
 
 public:
     Game(Setting setting);
@@ -123,18 +137,15 @@ public:
     void render();
     void update();
     void change_zombie_rate();
-    
+
     void add_zombie();
     void add_plant(string type, int health, Block *block);
-    
-    //ALI
-    void add_1zombie();
-    void add_peas_test();
 
     void add_sun(Vector2f position);
     void add_sun_from_top();
     void add_pea(string type, int line, int start_x, int damage, int speed);
-    
+
     vector<Row *> get_table();
     Sound *get_shoot_pea_sound();
+    Setting *get_setting();
 };

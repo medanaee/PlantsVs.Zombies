@@ -53,7 +53,7 @@ public:
     Sprite get_sprite();
     int get_line();
     int get_health();
-    void getting_hit(Pea pea);
+    void getting_hit(Pea pea,int cooldown);
     string get_status();
     void change_eating(bool on_off);
     int get_damage();

@@ -55,10 +55,11 @@ void Invasive_Plant::change_status(bool have_zombie_in_front)
 
 void Invasive_Plant::shoot(Game *game)
 {
+    //ALI
     if (type == PEASHOOTER)
-        game->add_pea(REGULAR, block->get_line(), sprite.getPosition().x + 40, 10, 6);
+        game->add_pea(REGULAR, block->get_line(), sprite.getPosition().x + 60, game->get_setting()->plants_data[1].damage, game->get_setting()->plants_data[1].speed);
     if (type == FROZEN_PEASHOOTER)
-        game->add_pea(FROZEN, block->get_line(), sprite.getPosition().x, 15, 6);
+        game->add_pea(FROZEN, block->get_line(), sprite.getPosition().x + 60, game->get_setting()->plants_data[2].damage, game->get_setting()->plants_data[2].speed);
 }
 
 void Invasive_Plant::update(bool have_zombie_in_front, Game *game)
