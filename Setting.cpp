@@ -10,7 +10,6 @@ Setting extractor_setting()
     if (!file.is_open())
     {
         cout << "Error opening file." << endl;
-        cout << "1" << endl;
     }
 
     string line;

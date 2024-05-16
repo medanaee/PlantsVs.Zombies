@@ -407,7 +407,7 @@ void Game::add_zombie()
 {
 
     add_zombie_time += add_zombie_clock.restart();
-    if (add_zombie_time >= interval_add_zombie)
+    if (add_zombie_time >= interval_add_zombie && global_time.asSeconds() <= setting.time_data.total_time)
     {
         if (rand() % 2)
             zombies.push_back(new Zombie(RANDOM_LINE, seconds(setting.zombies_data[0].speed), setting.zombies_data[0].health, setting.zombies_data[0].damage, REGULAR));
@@ -591,7 +591,7 @@ void Game::update()
 
         global_time += global_clock.restart();
 
-        if (global_time >= seconds(setting.time_data.total_time))
+        if (global_time >= seconds(setting.time_data.total_time) && zombies.size() == 0)
         {
             page = WIN;
             main_sound.stop();
