@@ -1,7 +1,9 @@
 #pragma once
 #include "Headers.hpp"
 #include "Pea.hpp"
+#include "Melon.hpp"
 class Pea;
+class Melon;
 
 using namespace std;
 using namespace sf;
@@ -14,7 +16,7 @@ private:
     Sprite sprite;
 
     int line;
-    int speed;
+    int pixel_move = 10;
     int initial_health;
     int health;
     int damage;
@@ -35,8 +37,8 @@ private:
     Time move_time = Time::Zero;
     Time frozed_duration = Time::Zero;
 
-    // Best time 0.4f
-    Time interval_move = seconds(0.4f);
+    Time interval_move;
+    Time initial_interval_move;
 
     Time interval_frame = ZOMBIE_ANIMATION_SPEED;
 
@@ -47,16 +49,18 @@ private:
     void update_position();
 
 public:
-    Zombie(int line, int speed, int health, int damage, string animations_path);
+    Zombie(int line, Time interval_move, int health, int damage, string animations_path);
     void update();
     void change_status();
     Sprite get_sprite();
     int get_line();
     int get_health();
     void getting_hit(Pea pea,int cooldown);
+    void getting_hit(Melon melon);
     string get_status();
     void change_eating(bool on_off);
     int get_damage();
     bool get_play_die_sound();
+    Time get_interval_move();
 
 };

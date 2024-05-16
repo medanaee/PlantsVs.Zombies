@@ -7,12 +7,14 @@
 #include "Row.hpp"
 #include "Sun.hpp"
 #include "Pea.hpp"
+#include "Melon.hpp"
 #include "Invasive_Plant.hpp"
 #include "Defender_Plant.hpp"
 #include "Sun_Plant.hpp"
 #include "Block.hpp"
 #include "Setting.hpp"
 #include "Headers.hpp"
+
 
 using namespace std;
 using namespace sf;
@@ -77,7 +79,7 @@ private:
     Texture lose_texture;
     Texture win_texture;
     void extract_menu_images();
-    Zombie * find_target_zombie(Plant* plant);
+    
 
     ////////////////////////////////////////////////////
 
@@ -104,10 +106,14 @@ private:
 
     vector<Pea *> peas;
     void render_peas();
+    void render_melons();
     void update_peas();
+    void update_melons();
     void check_collision();
     void check_mouse_click();
     bool have_zombie_in_front(Plant *plant);
+
+    vector<Melon*> melons;
 
     string page = MENU;
     void check_mouse_in_gameplay();
@@ -136,6 +142,9 @@ private:
 
 public:
     Game(Setting setting);
+
+    Zombie * find_target_zombie(Plant* plant);
+    
     bool running();
     void render();
     void update();
@@ -147,6 +156,7 @@ public:
     void add_sun(Vector2f position);
     void add_sun_from_top();
     void add_pea(string type, int line, int start_x, int damage, int speed);
+    void add_melon(Zombie* target, int line, int start_x, int damage, Time all_time);
 
     vector<Row *> get_table();
     Sound *get_shoot_pea_sound();

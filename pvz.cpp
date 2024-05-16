@@ -9,6 +9,7 @@ int main()
 {
     Setting setting = extractor_setting();
     Game pvz(setting);
+    cout << setting.zombies_data[0].speed << endl;
     // for(int i = 0; i < 5; i++)
     // {
     //     pvz.add_pea("FROZEN", i + 1, 50, 20);

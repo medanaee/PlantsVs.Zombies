@@ -1,15 +1,15 @@
 #SETTING
 
 #Zombies:Type=damage-health-speed
-Zombies:Regular=25-90-20
-Zombies:Angry=40-140-20
+Zombies:Regular=25-90-0.4
+Zombies:Angry=40-140-0.4
 
 #Plants:Type=damage-health-cooldown-hit_rate-attack_speed-price
 Plants:SunFlower=0-100-0-0-0-50
 Plants:PeaShooter=20-100-0-1-10-100
 Plants:Frozen=30-100-2-1-10-125
 Plants:WallNut=0-500-0-0-0-75
-Plants:Melon=50-100-0-1-0-300
+Plants:Melon=50-100-0-1-1-100
 
 #Time-Setting
 Times:100-23-43-34-5

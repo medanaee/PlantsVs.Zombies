@@ -16,6 +16,10 @@ bool Zombie::get_play_die_sound()
     return play_die_sound;
 }
 
+Time Zombie::get_interval_move()
+{
+    return interval_move;
+}
 
 void Zombie::set_line(int line)
 {
@@ -84,13 +88,14 @@ void Zombie::animation_generator()
     }
 }
 
-Zombie::Zombie(int line, int speed, int health, int damage, string type)
+Zombie::Zombie(int line, Time interval_move, int health, int damage, string type)
 {
 
     this->line = line;
     this->health = health;
     this->initial_health = health;
-    this->speed = speed;
+    this->interval_move = interval_move;
+    this->initial_interval_move = interval_move;
     this->type = type;
     this->damage = damage;
     animation_generator();
@@ -126,16 +131,12 @@ void Zombie::update_animation()
         if (frozed_duration.asSeconds() > 0)
             frozed_duration -= interval_frame;
         else
-            interval_move = seconds(0.4);
+            interval_move = initial_interval_move;
 
         frame_time -= interval_frame;
         pic_num++;
     }
-    if(frozed_duration.asSeconds() > 0)
-    {
-       
-        
-    }
+    
 }
 
 void Zombie::update_position()
@@ -143,7 +144,7 @@ void Zombie::update_position()
     move_time += move_clock.restart();
     if (move_time >= interval_move && (status == WALK || status == RUN))
     {
-        sprite.setPosition(sprite.getPosition().x - speed, sprite.getPosition().y);
+        sprite.setPosition(sprite.getPosition().x - pixel_move, sprite.getPosition().y);
         move_time = seconds(0);
     }
 }
@@ -186,4 +187,9 @@ void Zombie::getting_hit(Pea pea,int cooldown)
             interval_move = seconds(cooldown * interval_move.asSeconds());
         frozed_duration += seconds(5);
     }
+}
+
+void Zombie::getting_hit(Melon melon)
+{
+    health -= melon.get_damage();
 }

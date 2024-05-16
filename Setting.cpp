@@ -14,7 +14,7 @@ Setting extractor_setting()
     }
 
     string line;
-    regex zombie_regex("Zombies:(\\w+)=(\\d+)-(\\d+)-(\\d+)");
+    regex zombie_regex("Zombies:(\\w+)=(\\d+)-(\\d+)-([\\d.-]+)");
     regex plant_regex("Plants:(\\w+)=(\\d+)-(\\d+)-(\\d+)-(\\d+)-(\\d+)-(\\d+)");
     regex time_regex("Times:(\\d+)-(\\d+)-([\\d.-]+)-([\\d.-]+)-(\\d+)");
     regex sun_regex("Sun:(\\d+)-(\\d+)-(\\d+)-(\\d+)");
@@ -30,7 +30,7 @@ Setting extractor_setting()
             zombie.type = match[1];
             zombie.damage = stoi(match[2]);
             zombie.health = stoi(match[3]);
-            zombie.speed = stoi(match[4]);
+            zombie.speed = stof(match[4]);
             set.zombies_data.push_back(zombie);
         }
 

@@ -68,6 +68,8 @@ void Invasive_Plant::shoot(Game *game)
         game->add_pea(REGULAR, block->get_line(), sprite.getPosition().x + 60, game->get_setting()->plants_data[1].damage, game->get_setting()->plants_data[1].speed);
     if (type == FROZEN_PEASHOOTER)
         game->add_pea(FROZEN, block->get_line(), sprite.getPosition().x + 60, game->get_setting()->plants_data[2].damage, game->get_setting()->plants_data[2].speed);
+    if(type == MELON && game->find_target_zombie(this) != nullptr)
+        game->add_melon(game->find_target_zombie(this), block->get_line(), sprite.getPosition().x + 60, game->get_setting()->plants_data[4].damage, seconds(game->get_setting()->plants_data[4].speed));
 }
 
 void Invasive_Plant::update(bool have_zombie_in_front, Game *game)

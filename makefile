@@ -24,7 +24,7 @@ run: pvz
 ./outputs/Game.o: Game.cpp Game.hpp Headers.hpp Row.hpp Block.hpp Zombie.hpp Sun_Packet.hpp Sun.hpp Seed_Packet.hpp Plant.hpp Pea.hpp Setting.hpp
 	g++ -c $< -o $@
 
-./outputs/Zombie.o: Zombie.cpp Zombie.hpp Headers.hpp Pea.hpp
+./outputs/Zombie.o: Zombie.cpp Zombie.hpp Headers.hpp Pea.hpp Melon.hpp
 	g++ -c $< -o $@
 
 ./outputs/Pea.o: Pea.cpp Pea.hpp Headers.hpp Plant.hpp
@@ -45,7 +45,10 @@ run: pvz
 ./outputs/Setting.o: Setting.cpp Setting.hpp Headers.hpp
 	g++ -c $< -o $@
 
-pvz: $(out_path)pvz.o $(out_path)Defender_Plant.o $(out_path)Game.o $(out_path)Sun_Plant.o $(out_path)Setting.o $(out_path)Zombie.o $(out_path)Seed_Packet.o $(out_path)Sun_Packet.o $(out_path)Sun.o $(out_path)Row.o $(out_path)Block.o $(out_path)Pea.o $(out_path)Plant.o $(out_path)Invasive_Plant.o
+./outputs/Melon.o: Melon.cpp Melon.hpp Headers.hpp Zombie.hpp
+	g++ -c $< -o $@
+
+pvz: $(out_path)pvz.o $(out_path)Melon.o $(out_path)Defender_Plant.o $(out_path)Game.o $(out_path)Sun_Plant.o $(out_path)Setting.o $(out_path)Zombie.o $(out_path)Seed_Packet.o $(out_path)Sun_Packet.o $(out_path)Sun.o $(out_path)Row.o $(out_path)Block.o $(out_path)Pea.o $(out_path)Plant.o $(out_path)Invasive_Plant.o
 	g++ $^ -o pvz -lsfml-graphics -lsfml-window -l sfml-system -lsfml-audio
 
 ./outputs/pvz.o: pvz.cpp Game.hpp

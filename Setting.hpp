@@ -9,7 +9,7 @@ struct ZombieSetting
     int damage;
     int health;
     int hit_rate;
-    int speed;
+    float speed;
 };
 
 struct PlantSetting

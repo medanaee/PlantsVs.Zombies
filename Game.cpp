@@ -6,6 +6,11 @@ Sound *Game::get_shoot_pea_sound() { return &shoot_pea_sound; }
 Setting *Game::get_setting() { return &setting; }
 void Game::add_pea(string type, int line, int start_x, int damage, int speed) { peas.push_back(new Pea(type, line, start_x, damage, speed)); }
 
+void Game::add_melon(Zombie *target, int line, int start_x, int damage, Time all_time)
+{
+    melons.push_back(new Melon(target, line, start_x, damage, all_time));
+}
+
 bool is_colliding(const Sprite &sprite1, const Sprite &sprite2)
 {
     sf::FloatRect bounds1 = sprite1.getGlobalBounds();
@@ -24,17 +29,17 @@ bool is_colliding(const Sprite &sprite1, const Sprite &sprite2)
 
 Zombie *Game::find_target_zombie(Plant *plant)
 {
-    vector<Zombie*> same_line_zombies;
-    Zombie* target = nullptr;
-    for(Zombie* temp_zombie : zombies)
-        if(plant->get_block()->get_line() == temp_zombie->get_line() && temp_zombie->get_sprite().getPosition().x + 69 >= plant->get_block()->get_position().x)
+    vector<Zombie *> same_line_zombies;
+    Zombie *target = nullptr;
+    for (Zombie *temp_zombie : zombies)
+        if (plant->get_block()->get_line() == temp_zombie->get_line() && temp_zombie->get_sprite().getPosition().x + 69 >= plant->get_block()->get_position().x)
             same_line_zombies.push_back(temp_zombie);
 
-    if(same_line_zombies.size() != 0)
+    if (same_line_zombies.size() != 0)
         target = same_line_zombies[0];
 
-    for(Zombie* temp_zombie : same_line_zombies)
-        if(temp_zombie->get_sprite().getPosition().x < target->get_sprite().getPosition().x)
+    for (Zombie *temp_zombie : same_line_zombies)
+        if (temp_zombie->get_sprite().getPosition().x < target->get_sprite().getPosition().x)
             target = temp_zombie;
 
     return target;
@@ -196,6 +201,26 @@ void Game::update_peas()
         {
             it = peas.erase(it);
             delete temp_pea;
+        }
+        else
+            ++it;
+    }
+}
+
+void Game::update_melons()
+{
+    for (auto it = melons.begin(); it != melons.end();)
+    {
+        Melon *temp_melon = *it;
+        temp_melon->update();
+        if (temp_melon->get_target()->get_health() > 0 &&
+            is_colliding(temp_melon->get_target()->get_sprite(), temp_melon->get_sprite()) &&
+            temp_melon->get_line() == temp_melon->get_target()->get_line() ||
+            temp_melon->get_sprite().getPosition().y + 60> 144 + 108 * (temp_melon->get_line()))
+        {
+            temp_melon->get_target()->getting_hit(*temp_melon);
+            it = melons.erase(it);
+            delete temp_melon;
         }
         else
             ++it;
@@ -449,9 +474,9 @@ void Game::add_zombie()
     if (add_zombie_time >= interval_add_zombie)
     {
         if (rand() % 2)
-            zombies.push_back(new Zombie(RANDOM_LINE, setting.zombies_data[0].speed, setting.zombies_data[0].health, setting.zombies_data[0].damage, REGULAR));
+            zombies.push_back(new Zombie(RANDOM_LINE, seconds(setting.zombies_data[0].speed), setting.zombies_data[0].health, setting.zombies_data[0].damage, REGULAR));
         else
-            zombies.push_back(new Zombie(RANDOM_LINE, setting.zombies_data[1].speed, setting.zombies_data[1].health, setting.zombies_data[1].damage, ANGRY));
+            zombies.push_back(new Zombie(RANDOM_LINE, seconds(setting.zombies_data[1].speed), setting.zombies_data[1].health, setting.zombies_data[1].damage, ANGRY));
         add_zombie_time -= interval_add_zombie;
     }
 }
@@ -495,6 +520,14 @@ void Game::render_peas()
 {
     for (Pea *temp : peas)
         window->draw(temp->get_sprite());
+}
+
+void Game::render_melons()
+{
+    for (Melon *temp : melons)
+    {
+        window->draw(temp->get_sprite());
+    }
 }
 
 void Game::render_line_zombies(int line)
@@ -559,6 +592,7 @@ void Game::render()
         render_zombies();
         render_packets();
         render_peas();
+        render_melons();
         render_suns();
         render_previews();
     }
@@ -615,6 +649,7 @@ void Game::update()
         update_zombies();
         update_suns();
         update_peas();
+        update_melons();
 
         check_collision();
 
