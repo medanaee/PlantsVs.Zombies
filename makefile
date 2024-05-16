@@ -1,7 +1,7 @@
 out_path = ./outputs/
 
-clear: run
-	rm -f pvz
+# clear: run
+# 	rm -f pvz
 
 run: pvz
 	./pvz

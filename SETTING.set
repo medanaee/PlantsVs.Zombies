@@ -12,7 +12,7 @@ Plants:WallNut=0-500-0-0-0-75
 Plants:Melon=50-100-0-1-1-100
 
 #Time-Setting
-Times:100-23-43-34-5
+Times:100-10-10-1
 
 #Sun-Setting:vertical_speed-generate_speed-budget-money
 Sun:10-8-500000000-25

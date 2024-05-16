@@ -557,12 +557,12 @@ void Game::update_plants()
 
 void Game::change_zombie_rate()
 {
-    Time interval_zombie_rate = seconds(6);
+    Time interval_zombie_rate = seconds(setting.time_data.time_flag);
     zombie_rate_time += zombie_rate_clock.restart();
     if (zombie_rate_time >= interval_zombie_rate)
-        if (interval_add_zombie.asSeconds() > 3)
+        if (interval_add_zombie.asSeconds() > 1)
         {
-            interval_add_zombie = seconds(interval_add_zombie.asSeconds() - 1);
+            interval_add_zombie = seconds(interval_add_zombie.asSeconds() - setting.time_data.decrease_duration_zombie_attack);
             zombie_rate_time -= interval_zombie_rate;
         }
 }

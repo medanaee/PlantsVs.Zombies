@@ -26,10 +26,9 @@ struct PlantSetting
 struct TimeSetting
 {
     int total_time;
-    int first_time_flag;
     float initial_duration_zombie_attack;
+    int time_flag;
     float decrease_duration_zombie_attack;
-    int recharge_duration;
 };
 
 struct SunSetting

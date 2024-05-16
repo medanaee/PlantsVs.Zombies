@@ -29,29 +29,29 @@ private:
     Setting setting = extractor_setting();
 
     Seed_Packet frozen_shooter_packet;
-    // void put_frozen_shooter(Vector2f mouse_position, bool sun_collect);
+    
     Seed_Packet wall_nut_packet;
-    // void put_wallnut(Vector2f mouse_position, bool sun_collect);
+    
     Seed_Packet shooter_packet;
-    // void put_shooter(Vector2f mouse_position, bool sun_collect);
+    
     void put_plant(Vector2f mouse_position, bool sun_collect, Seed_Packet &seed_packet);
     Seed_Packet sun_flower_packet;
-    // void put_sun_flower(Vector2f mouse_position, bool sun_collect);
+    
     Seed_Packet melon_packet;
-    // void put_melon(Vector2f mouse_position, bool sun_collect);
+    
     Sun_Packet sun_packet;
 
     void render_packets();
     void update_packets();
 
-    ////////////////////////////////////////////////////
+    
 
     Clock global_clock;
     Time global_time = Time::Zero;
 
     Clock add_zombie_clock;
     Time add_zombie_time = Time::Zero;
-    Time interval_add_zombie = seconds(6);
+    Time interval_add_zombie = seconds(setting.time_data.initial_duration_zombie_attack);
 
     Clock add_sun_clock;
     Time add_sun_time = Time::Zero;
@@ -62,7 +62,7 @@ private:
     Clock zombie_rate_clock;
     Time zombie_rate_time = Time::Zero;
 
-    ////////////////////////////////////////////////////
+    
 
     RenderWindow *window;
     Event event;
@@ -82,7 +82,7 @@ private:
     void extract_menu_images();
     
 
-    ////////////////////////////////////////////////////
+    
 
     vector<Zombie *> zombies;
     void render_line_zombies(int line);
@@ -122,7 +122,7 @@ private:
     void end();
     void mouse_move();
 
-    /////////////////////////////////////////////////////
+    
 
     SoundBuffer main_buffer;
     SoundBuffer win_buffer;

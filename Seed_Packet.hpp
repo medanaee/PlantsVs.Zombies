@@ -16,7 +16,6 @@ class Seed_Packet
     Sprite plant_sprite;
 
     Time charge_time;
-    //ALI
     Time remaning_time = seconds(0);
     Time interval_time = seconds(0.1f);
     Time time = Time::Zero;

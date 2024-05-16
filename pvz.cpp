@@ -9,12 +9,6 @@ int main()
 {
     Setting setting = extractor_setting();
     Game pvz(setting);
-    // for(int i = 0; i < 5; i++)
-    // {
-    //     pvz.add_pea("FROZEN", i + 1, 50, 20);
-    // }
-    // pvz.add_1zombie();
-    
 
     while (pvz.running())
     {

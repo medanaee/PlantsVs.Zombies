@@ -163,7 +163,6 @@ void Zombie::change_status()
     if (type == ANGRY && health <= (initial_health) / 3 && status != DIE && status != DYING && status != IDLE && !is_eating)
     {
         status = RUN;
-        // ALI
         interval_move = seconds(0.1f);
     }
     if (health <= 0 && status != DIE && status != DYING && status != IDLE)
@@ -182,7 +181,6 @@ void Zombie::getting_hit(Pea pea,int cooldown)
     health -= pea.get_damage();
     if (pea.get_type() == FROZEN)
     {
-        // ALI
         if (frozed_duration == seconds(0))
             interval_move = seconds(cooldown * interval_move.asSeconds());
         frozed_duration += seconds(5);

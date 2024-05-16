@@ -25,8 +25,8 @@ Pea::Pea(string type, int line, int start_x, int damage, int speed)
 
 void Pea::update()
 {
-    //ALI
-    // Best time 0.01f
+    
+    
     Time interval_move = seconds(0.01f);
     move_time += move_clock.restart();
     if (move_time >= interval_move)

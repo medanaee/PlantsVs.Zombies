@@ -8,7 +8,6 @@ bool Sun::is_die()
 {
     if(type == FIX)
     {
-        //ALI
         sf::Time interval_remove = sf::seconds(5);
         remove_time += remove_clock.restart();
         if (remove_time >= interval_remove)
@@ -40,7 +39,6 @@ void Sun::update()
 {
     if(type == MOBILE)
     {
-        //ALI
         sf::Time interval_move = sf::seconds(0.1f);
         move_time += move_clock.restart();
         if (move_time >= interval_move)

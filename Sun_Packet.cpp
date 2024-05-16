@@ -25,7 +25,6 @@ Text Sun_Packet::budget_preview()
 
 void Sun_Packet::add_money(int sun_value) { budget += sun_value; }
 void Sun_Packet::spend_money(int sun_value){budget -= sun_value;}
-//ALI
 int Sun_Packet::get_budget() { return budget; }
 
 

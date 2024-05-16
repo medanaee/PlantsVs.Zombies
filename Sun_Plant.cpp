@@ -12,7 +12,6 @@ Sun_Plant::Sun_Plant(int health, Block *block, int generate_sun_duration) : Plan
 
 void Sun_Plant::update(bool have_zombie_in_front, Game *game)
 {
-    // ALI
     Time interval_time = seconds(0.1f);
     Time interval_generate_sun = seconds(generate_sun_speed);
     
