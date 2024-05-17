@@ -15,8 +15,8 @@ private:
     float pixel_move_x = 5;
     float initial_pixel_move_y = 10;
     float pixel_move_y;
-    float kk;
-    float bb;
+    float delta_y_rate;
+    float rotate_rate;
     int damage;
 
     float rotate = -70;

@@ -25,6 +25,9 @@
 
 
 /////Main Items
+#define RANDOM_POSITION_OF_SUN random() % 780 + 200
+#define ROW_CONSTRUCTOR Vector2f(223, 145 + i * BLOCK_WIDTH), i + 1
+#define WINDOW_CONSTRUCTOR VideoMode(1080, 720), "Plants VS. Zombies", Style::Close
 #define COLORED_PIXEL_POSITION (last_col - bounds1.left) * 2, (start_y - bounds1.top) * 2
 #define PRICE_TEXT_POSITION sprite.getPosition().x + 66, sprite.getPosition().y + 31
 #define REMANING_TIME_POSITION sprite.getPosition().x + 78, sprite.getPosition().y + 7
@@ -101,6 +104,14 @@
 #define MENU "Menu"
 #define GAMEPLAY "Gameplay"
 
+/////Melon
+#define MELON_ANIMATION "./Pics/Main Items/Melon.png"
+#define MELON_ROTATE -70
+#define MELON_POSITION start_x, 104 + 108 * (line - 1)
+#define MELON_SCALE 0.4, 0.4
+#define MELON_PREVIEW "./Pics/Melon Plant/Idle/01.png"
+#define MELON_ALL_ROTATE 140
+
 
 /////SUNFLOWER
 #define SUNFLOWER_SCALE 0.47,0.47
@@ -108,7 +119,7 @@
 #define FIX_SUN_POSITION sprite_position.x+40,sprite_position.y+50
 #define SUN_IMAGE "./Pics/Main Items/Sun.png"
 #define SUN_SCALE 0.6, 0.6
-
+#define SUNFLOWER_PREVIEW "./Pics/SunFlower Plant/Idle01.png"
 
 /////Wall-Nut
 #define WALLNUT_SCALE 0.24, 0.24
@@ -123,6 +134,8 @@
 
 
 /////Pea-Shooter
+#define FROZEN_PEASHOOTER_PREVIEW "./Pics/Frozen PeaShooter Plant/Idle/Idle01.png"
+#define PEASHOOTER_PREVIEW "./Pics/PeaShooter Plant/Idle/Idle01.png"
 #define FIRED_PEA_POSITION start_x, 164 + BLOCK_WIDTH * (line - 1)
 #define PEA_FRAME_RATE 0.1f
 #define PEASHOOTER_SCALE 0.18, 0.18
@@ -137,3 +150,4 @@
 #define ZOMBIE_SCALE 0.5, 0.5
 #define REGULAR_ZOMBIE_ANIMATION "./Pics/Regular Zombie"
 #define ANGRY_ZOMBIE_ANIMATION "./Pics/Angry Zombie"
+#define ZOMBIE_DISTANSE_FROM_SPRITE 69

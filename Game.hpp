@@ -29,15 +29,16 @@ private:
     Setting setting = extractor_setting();
 
     Seed_Packet frozen_shooter_packet;
-    void put_frozen_shooter(Vector2f mouse_position);
+    // void put_frozen_shooter(Vector2f mouse_position, bool sun_collect);
     Seed_Packet wall_nut_packet;
-    void put_wallnut(Vector2f mouse_position);
+    // void put_wallnut(Vector2f mouse_position, bool sun_collect);
     Seed_Packet shooter_packet;
-    void put_shooter(Vector2f mouse_position);
+    // void put_shooter(Vector2f mouse_position, bool sun_collect);
+    void put_plant(Vector2f mouse_position, bool sun_collect, Seed_Packet &seed_packet);
     Seed_Packet sun_flower_packet;
-    void put_sun_flower(Vector2f mouse_position);
+    // void put_sun_flower(Vector2f mouse_position, bool sun_collect);
     Seed_Packet melon_packet;
-    void put_melon(Vector2f mouse_position);
+    // void put_melon(Vector2f mouse_position, bool sun_collect);
     Sun_Packet sun_packet;
 
     void render_packets();
@@ -93,7 +94,7 @@ private:
     vector<Sun *> suns;
     void render_suns();
     void update_suns();
-    void click_suns(Vector2f mouse_position);
+    bool click_suns(Vector2f mouse_position);
 
     vector<Plant *> plants;
     void render_line_plants(int line);
