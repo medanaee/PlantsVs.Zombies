@@ -48,8 +48,10 @@ run: pvz
 ./outputs/Melon.o: Melon.cpp Melon.hpp Headers.hpp Zombie.hpp
 	g++ -c $< -o $@
 
+SFML_FLAGS = -L/usr/local/lib -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
+
 pvz: $(out_path)pvz.o $(out_path)Melon.o $(out_path)Defender_Plant.o $(out_path)Game.o $(out_path)Sun_Plant.o $(out_path)Setting.o $(out_path)Zombie.o $(out_path)Seed_Packet.o $(out_path)Sun_Packet.o $(out_path)Sun.o $(out_path)Row.o $(out_path)Block.o $(out_path)Pea.o $(out_path)Plant.o $(out_path)Invasive_Plant.o
-	g++ $^ -o pvz -lsfml-graphics -lsfml-window -l sfml-system -lsfml-audio
+	g++ $^ -o pvz $(SFML_FLAGS)
 
 ./outputs/pvz.o: pvz.cpp Game.hpp
 	g++ -c $< -o $@
