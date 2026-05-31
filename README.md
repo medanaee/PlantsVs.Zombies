@@ -32,9 +32,3 @@ cd ./PlantsVs.Zombies
 ```bash
 make
 ```
-
-
-
-```
-
-```
